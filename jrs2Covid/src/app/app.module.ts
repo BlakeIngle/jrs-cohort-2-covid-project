@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { CovidAppComponent } from './components/covid-app/covid-app.component';
 import { StatePageComponent } from './components/state-page/state-page.component';
 import { CountyPageComponent } from './components/county-page/county-page.component';
+import { LineGraphComponent } from './components/line-graph/line-graph.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CovidAppComponent,
     StatePageComponent,
-    CountyPageComponent
+    CountyPageComponent,
+    LineGraphComponent
   ],
   imports: [
     BrowserModule,
