@@ -19,4 +19,12 @@ export class WorldometersService {
   getStatesRanked() {
     return this.http.get(`https://disease.sh/v3/covid-19/states?sort=cases`)
   }
+
+  getUSANumbers() {
+    return this.http.get(`https://disease.sh/v3/covid-19/nyt/usa`)
+  }
+
+  getUSACountyNumbers() {
+    return this.http.get(`https://disease.sh/v3/covid-19/jhucsse/counties`)
+  }
 }
