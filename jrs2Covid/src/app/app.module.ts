@@ -10,6 +10,7 @@ import { StatePageComponent } from './components/state-page/state-page.component
 import { CountyPageComponent } from './components/county-page/county-page.component';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { LineGraphComponent } from './components/line-graph/line-graph.component';
+import { ChoroplethComponent } from './components/choropleth/choropleth.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LineGraphComponent } from './components/line-graph/line-graph.component
     StatePageComponent,
     CountyPageComponent,
     PieChartComponent,
-    LineGraphComponent
+    LineGraphComponent,
+    ChoroplethComponent
   ],
   imports: [
     BrowserModule,
