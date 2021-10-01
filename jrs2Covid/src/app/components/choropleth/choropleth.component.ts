@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import { feature, mesh } from 'topojson'
+import { feature, mesh } from 'topojson';
 import { WorldometersService } from 'src/app/services/worldometers.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 /**
  * A choropleth map is a type of thematic map in which a set of
@@ -26,7 +27,8 @@ export class ChoroplethComponent implements OnInit {
   height = 400;
 
   constructor(private worldService: WorldometersService,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.http.get('assets/counties-albers-10m.json')
@@ -73,22 +75,43 @@ export class ChoroplethComponent implements OnInit {
       .domain([min, max])
       .range([0, 1]);
 
-    console.log(states)
+
+    // draw counties
     this.svg.append("g")
       .selectAll("path")
       .data(feature(us, us.objects.counties).features)
       .join("path")
+      .attr('class', 'county')
+      .attr('state', (d) => {
+        let stateName = (states.get(d.id.slice(0, 2)) as any).name;
+        return stateName.toLowerCase();
+      })
+      .attr('county', (d) => d.properties.name.toLowerCase())
       .attr("fill", (d, i) => {
         let countyName = d.properties.name;
         let stateName = (states.get(d.id.slice(0, 2)) as any).name;
         let dataActual = data.find(c => c.county == countyName && c.province == stateName)
-
-
         return dataActual
           // ? color(dataActual.stats.confirmed)
           ? d3.interpolateOrRd(color(dataActual.stats.confirmed))
           : "#FFF"
       })
+      .on('mouseover', function (d, i) {
+        d3.selectAll('.county')
+          .attr('opacity', 0.25)
+        d3.select(this)
+          .attr('opacity', 1)
+      })
+      .on('mouseout', function (d, i) {
+        d3.selectAll('.county')
+          .attr('opacity', 1)
+      })
+      .on('click', (evt) => {
+        let state = evt.srcElement.getAttribute('state')
+        let county = evt.srcElement.getAttribute('county')
+        this.router.navigate([state, county])
+      })
+      .attr('stroke', '#ccc')
       .attr("d", path)
       .append("title")
       .text((d, i) => {
@@ -100,12 +123,23 @@ export class ChoroplethComponent implements OnInit {
           }`
       });
 
+    // draw states
     this.svg.append("path")
       .datum(mesh(us, us.objects.states, (a, b) => a !== b))
+      .attr("class", "state")
       .attr("fill", "none")
-      .attr("stroke", "white")
+      .attr("stroke", "#555")
       .attr("stroke-linejoin", "round")
-      .attr("d", path);
+      .attr("d", path)
+
+
+    // draw country border
+    this.svg.append("path")
+      .data(feature(us, us.objects.nation).features)
+      .join("path")
+      .attr('stroke', '#555')
+      .attr('fill', 'none')
+      .attr("d", path)
   }
 
 }
