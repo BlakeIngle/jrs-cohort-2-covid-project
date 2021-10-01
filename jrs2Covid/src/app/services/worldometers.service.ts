@@ -27,4 +27,10 @@ export class WorldometersService {
   getUSACountyNumbers() {
     return this.http.get(`https://disease.sh/v3/covid-19/jhucsse/counties`)
   }
+
+
+  getSCVaccines() {
+    return this.http.get(`https://disease.sh/v3/covid-19/vaccine/coverage/states/south%20carolina?lastdays=365&fullData=false
+    `)
+  }
 }
