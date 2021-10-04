@@ -1,2 +1,8 @@
 <p>choropleth works!</p>
 <div class="map-canvas"></div>
+
+<select [(ngModel)]="fillMode"
+        (ngModelChange)="recolor()">
+    <option *ngFor="let i of [1, 2, 3, 4 , 5, 6]"
+            [value]="i">{{fillModes[i]}}</option>
+</select>
