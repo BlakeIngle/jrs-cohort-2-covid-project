@@ -4,6 +4,7 @@ import { feature, mesh } from 'topojson';
 import { WorldometersService } from 'src/app/services/worldometers.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import countiesPopulation from '../../../assets/counties_population.json';
 
 /**
  * A choropleth map is a type of thematic map in which a set of
@@ -46,34 +47,31 @@ export class ChoroplethComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    let populationData = countiesPopulation;
     this.http.get('assets/counties-albers-10m.json')
       .subscribe((us: any) => {
         this.us = us;
 
-        this.http.get('assets/counties_population.json')
-          .subscribe((populationData: any) => {
+        this.worldService.getUSACountyNumbers()
+          .subscribe((data: any) => {
+            this.data = data;
+            console.log(data, populationData)
+            this.data = this.data.map(d => {
+              let c = populationData.find(p =>
+                p.region == d.province && p.subregion == d.county
+              );
+              d.fips = c?.us_county_fips;
+              d.population = Number(c?.population);
 
-            this.worldService.getUSACountyNumbers()
-              .subscribe((data: any) => {
-                this.data = data;
-                console.log(data, populationData)
-                this.data = this.data.map(d => {
-                  let c = populationData.find(p =>
-                    p.region == d.province && p.subregion == d.county
-                  );
-                  d.fips = c?.us_county_fips;
-                  d.population = Number(c?.population);
+              return d;
+            })
 
-                  return d;
-                })
+            console.log(this.data);
+            this.states = new Map(us.objects.states.geometries.map(d => [d.id, d.properties]))
+            this.countiesMap = new Map(us.objects.counties.geometries.map(d => [d.properties.name, d.id]))
 
-                console.log(this.data);
-                this.states = new Map(us.objects.states.geometries.map(d => [d.id, d.properties]))
-                this.countiesMap = new Map(us.objects.counties.geometries.map(d => [d.properties.name, d.id]))
-
-                this.createSvg();
-                this.drawMap();
-              })
+            this.createSvg();
+            this.drawMap();
           })
       })
 
