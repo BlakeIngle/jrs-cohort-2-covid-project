@@ -5,63 +5,62 @@ import { Injectable } from '@angular/core';
 })
 export class StateNamesService {
 
-  map: Map<string, string>;
+  private map;
 
   constructor() {
-
-    let map = new Map();
-
-    map.set("AL", "Alabama")
-      .set("AK", "Alaska")
-      .set("AZ", "Arizona")
-      .set("AR", "Arkansas")
-      .set("CA", "California")
-      .set("CO", "Colorado")
-      .set("CT", "Connecticut")
-      .set("DE", "Delaware")
-      .set("DC", "District Of Columbia")
-      .set("FL", "Florida")
-      .set("GA", "Georgia")
-      .set("HI", "Hawaii")
-      .set("ID", "Idaho")
-      .set("IL", "Illinois")
-      .set("IN", "Indiana")
-      .set("IA", "Iowa")
-      .set("KS", "Kansas")
-      .set("KY", "Kentucky")
-      .set("LA", "Louisiana")
-      .set("ME", "Maine")
-      .set("MD", "Maryland")
-      .set("MA", "Massachusetts")
-      .set("MI", "Michigan")
-      .set("MN", "Minnesota")
-      .set("MS", "Mississippi")
-      .set("MO", "Missouri")
-      .set("MT", "Montana")
-      .set("NE", "Nebraska")
-      .set("NV", "Nevada")
-      .set("NH", "New Hampshire")
-      .set("NJ", "New Jersey")
-      .set("NM", "New Mexico")
-      .set("NY", "New York")
-      .set("NC", "North Carolina")
-      .set("ND", "North Dakota")
-      .set("OH", "Ohio")
-      .set("OK", "Oklahoma")
-      .set("OR", "Oregon")
-      .set("PA", "Pennsylvania")
-      .set("RI", "Rhode Island")
-      .set("SC", "South Carolina")
-      .set("SD", "South Dakota")
-      .set("TN", "Tennessee")
-      .set("TX", "Texas")
-      .set("UT", "Utah")
-      .set("VT", "Vermont")
-      .set("VA", "Virginia")
-      .set("WA", "Washington")
-      .set("WV", "West Virginia")
-      .set("WI", "Wisconsin")
-      .set("WY", "Wyoming")
+    this.map = {
+      "AL": "Alabama",
+      "AK": "Alaska",
+      "AZ": "Arizona",
+      "AR": "Arkansas",
+      "CA": "California",
+      "CO": "Colorado",
+      "CT": "Connecticut",
+      "DE": "Delaware",
+      "DC": "District Of Columbia",
+      "FL": "Florida",
+      "GA": "Georgia",
+      "HI": "Hawaii",
+      "ID": "Idaho",
+      "IL": "Illinois",
+      "IN": "Indiana",
+      "IA": "Iowa",
+      "KS": "Kansas",
+      "KY": "Kentucky",
+      "LA": "Louisiana",
+      "ME": "Maine",
+      "MD": "Maryland",
+      "MA": "Massachusetts",
+      "MI": "Michigan",
+      "MN": "Minnesota",
+      "MS": "Mississippi",
+      "MO": "Missouri",
+      "MT": "Montana",
+      "NE": "Nebraska",
+      "NV": "Nevada",
+      "NH": "New Hampshire",
+      "NJ": "New Jersey",
+      "NM": "New Mexico",
+      "NY": "New York",
+      "NC": "North Carolina",
+      "ND": "North Dakota",
+      "OH": "Ohio",
+      "OK": "Oklahoma",
+      "OR": "Oregon",
+      "PA": "Pennsylvania",
+      "RI": "Rhode Island",
+      "SC": "South Carolina",
+      "SD": "South Dakota",
+      "TN": "Tennessee",
+      "TX": "Texas",
+      "UT": "Utah",
+      "VT": "Vermont",
+      "VA": "Virginia",
+      "WA": "Washington",
+      "WV": "West Virginia",
+      "WI": "Wisconsin",
+      "WY": "Wyoming"
+    }
   }
 
   /**
@@ -69,7 +68,7 @@ export class StateNamesService {
    * full name of the state
    * @param abv state name abbreviation | "AL", "OH", "TX" etc.
    */
-  getFullNameFromAbbreviation(abv: string): void {
-
+  public getFullNameFromAbbreviation(abv: string): string {
+    return this.map[abv];
   }
 }
