@@ -1,0 +1,53 @@
+Covid APP:
+
+- main/home page (all USA):
+    - display an update of the most recent covid numbers in USA
+        - and display the change/increase of the numbers in the past day
+    - display cases/active/deaths on line chart over last 6 months
+    - rank states by numbers:
+        - total cases
+        - new cases in last xx time period
+        - total deaths
+        - vaccinations
+    - search for states
+
+- map display
+    - show number of cases in each county of USA compared to each other
+        - dispaly options:
+            - total cases/deaths
+            - cases/deaths per population
+            - increase in total cases/deaths over last day/week
+
+- state's page
+    - data in charts:
+        - cases/recovered/deaths/vaccinations % for state's population
+        - new-cases/deaths per day 
+        - cases/recovered/deaths over time
+        - vaccinations per day 
+    - population
+    - hot spots in the state
+        - rank counties in the state by numbers
+            - total cases
+            - new cases in last xx time period
+            - total deaths
+            - vaccinations
+
+- county's page
+    - data in charts:
+        - cases/recovered/deaths/vaccinations % for state's population
+        - new-cases/deaths per day 
+        - cases/recovered/deaths over time
+        - vaccinations per day 
+    - population
+    - link back to state's page
+
+- link to cdc/d.h.e.c./other websites
+
+- nav bar (breadcrumb)
+    - make it work nice
+
+- credits:
+    - link to JRS code school
+    - display dev credits to:
+        - instructor: blake
+        - students: will and raphael
