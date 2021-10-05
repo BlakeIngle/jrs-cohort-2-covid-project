@@ -1,36 +1,67 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RegionData } from '../models/regionData.model';
+import countiesPopulation from '../../assets/counties_population.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorldometersService {
 
+
+
   constructor(private http: HttpClient) { }
 
-  getSCNumbers() {
-    return this.http.get('https://disease.sh/v3/covid-19/states/south carolina')
+  getStateNumbers() {
+    return this.http.get(`https://disease.sh/v3/covid-19/states`)
   }
 
-  getUSA() {
-    return this.http.get('https://disease.sh/v3/covid-19/countries/usa?strict=true')
+  getNumbersByState(state) {
+    return this.http.get(`https://disease.sh/v3/covid-19/states/${state}`)
   }
 
-  getStatesRanked() {
-    return this.http.get(`https://disease.sh/v3/covid-19/states?sort=cases`)
-  }
-
-  getUSANumbers() {
-    return this.http.get(`https://disease.sh/v3/covid-19/nyt/usa`)
-  }
-
-  getUSACountyNumbers() {
-    return this.http.get(`https://disease.sh/v3/covid-19/jhucsse/counties`)
-  }
+  convertData(state): RegionData {
+    let counties: any[] = countiesPopulation;
 
 
-  getSCVaccines() {
-    return this.http.get(`https://disease.sh/v3/covid-19/vaccine/coverage/states/south%20carolina?lastdays=365&fullData=false
-    `)
+    let region = new RegionData();
+
+    region = {
+      region: state.state,
+      parentRegion: "USA",
+      fips: null,
+      stateFips: counties.find(c => c.region == state.state).us_state_fips,
+      population: state.population,
+
+      totalCases: state.cases,
+      totalDeaths: state.deaths,
+      totalRecovered: state.recovered,
+      totalActive: state.active,
+
+      todayCases: state.todayCases,
+      todayDeaths: state.todayDeaths,
+      todayRecovered: null,
+      todayActive: null,
+
+      timeline: {
+        cases: [{
+          date: new Date(state.updated),
+          value: state.cases
+        }],
+        deaths: [{
+          date: new Date(state.updated),
+          value: state.deaths
+        }],
+        recovered: [{
+          date: new Date(state.updated),
+          value: state.recovered
+        }],
+      }
+
+    }
+
+    console.log(region);
+
+    return region;
   }
 }
