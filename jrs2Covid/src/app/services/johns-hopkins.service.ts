@@ -33,14 +33,14 @@ export class JohnsHopkinsService {
       cases = Object.keys(data.timeline.cases).map(key => {
         return {
           date: new Date(key),
-          value: data.timeline[key]
+          value: data.timeline.cases[key]
         }
       });
-      
+
       deaths = Object.keys(data.timeline.deaths).map(key => {
         return {
           date: new Date(key),
-          value: data.timeline[key]
+          value: data.timeline.deaths[key]
         }
       });
 
@@ -49,6 +49,7 @@ export class JohnsHopkinsService {
 
       todayDeaths = (deaths.length < 2 ? null : deaths[deaths.length - 1].value
         - deaths[deaths.length - 2].value)
+        
     } else if (data.stats) {
       todayCases = null;
       cases = [{
@@ -61,7 +62,7 @@ export class JohnsHopkinsService {
         value: data.stats.deaths
       }];
     }
-    
+
     let county = counties.find(c => c.subregion.toLowerCase() == data.county.toLowerCase() && data.province.toLowerCase() == c.region.toLowerCase())
 
     let region: RegionData = {
