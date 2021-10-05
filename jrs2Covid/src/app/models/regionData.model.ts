@@ -15,14 +15,13 @@ export class RegionData {
     todayRecovered?: number;
     todayActive?: number;
 
-
     timeline?: {
         cases: { date: Date, value: number }[],
         deaths: { date: Date, value: number }[],
         recovered?: { date: Date, value: number }[]
     }
 
-    constructor(name: string) {
+    constructor(name?: string) {
         this.region = name;
     }
 }
