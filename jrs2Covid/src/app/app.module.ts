@@ -11,6 +11,7 @@ import { CountyPageComponent } from './components/county-page/county-page.compon
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { LineGraphComponent } from './components/line-graph/line-graph.component';
 import { ChoroplethComponent } from './components/choropleth/choropleth.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ChoroplethComponent } from './components/choropleth/choropleth.componen
     CountyPageComponent,
     PieChartComponent,
     LineGraphComponent,
-    ChoroplethComponent
+    ChoroplethComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
