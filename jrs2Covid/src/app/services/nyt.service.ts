@@ -61,7 +61,7 @@ export class NytService {
           }
 
         }
-        console.log("first go: ", region)
+        // end original initialization
 
         // add other dates to timelines via other d objects from api
         for (let other of data) {
@@ -78,14 +78,10 @@ export class NytService {
           }
           // else is the original
         }
-        console.log("final?: ", region)
         this.regionDataService.cleanUp(region);
         regions.push(region);
       }
-      // find new region
-      // find similar regions
     }
-    console.log("complete: ", regions)
     return regions;
   }
 

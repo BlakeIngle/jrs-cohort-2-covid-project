@@ -20,7 +20,7 @@ export class JohnsHopkinsService {
     return this.http.get(`https://disease.sh/v3/covid-19/historical/usacounties/${state.toLowerCase()}?lastdays=${day ? day : 1}`);
   }
 
-  convertData(data: any): RegionData {
+  private convertOneData(data: any): RegionData {
 
     let counties: any[] = countiesPopulation;
 
@@ -90,5 +90,13 @@ export class JohnsHopkinsService {
     }
 
     return region;
+  }
+
+  public convertData(data: any | any[]): RegionData[] {
+    if (Array.isArray(data)) {
+      return data.map(d => { return this.convertOneData(d) })
+    } else {
+      return [this.convertOneData(data)];
+    }
   }
 }

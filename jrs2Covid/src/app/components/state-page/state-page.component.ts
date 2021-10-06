@@ -44,13 +44,12 @@ export class StatePageComponent implements OnInit {
 
     this.worldService.getNumbersByState(this.state)
       .subscribe((data: any) => {
-        this.stateData = this.worldService.convertData(data)
+        this.stateData = this.worldService.convertData(data)[0];
       });
 
     this.johnHopkinsService.getCountyNumbersByState(this.state)
       .subscribe((data: any) => {
-
-        this.counties = data.map(c => this.johnHopkinsService.convertData(c))
+        this.counties = this.johnHopkinsService.convertData(data);
       })
   }
 

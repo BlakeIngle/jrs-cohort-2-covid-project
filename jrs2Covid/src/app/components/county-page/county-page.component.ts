@@ -31,9 +31,8 @@ export class CountyPageComponent implements OnInit {
 
     this.johnsHopkinsServices.getCountyNumbersByState(stateName, 30)
       .subscribe(data => {
-        this.county = this.johnsHopkinsServices.convertData(
-          (data as any).find(c => c.county == countyName));
-        
+        let countyData = (data as any[]).find(c => c.county == countyName)
+        this.county = this.johnsHopkinsServices.convertData(countyData)[0];
       });
   }
 

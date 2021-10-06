@@ -28,7 +28,7 @@ export class WorldometersService {
     return this.http.get(`https://disease.sh/v3/covid-19/states/${state}`)
   }
 
-  convertData(state): RegionData {
+  private convertOneData(state): RegionData {
     let counties: any[] = countiesPopulation;
 
 
@@ -71,5 +71,13 @@ export class WorldometersService {
     }
 
     return region;
+  }
+
+  public convertData(data: any | any[]): RegionData[] {
+    if (Array.isArray(data)) {
+      return data.map(d => this.convertOneData(d));
+    } else {
+      return [this.convertOneData(data)];
+    }
   }
 }
