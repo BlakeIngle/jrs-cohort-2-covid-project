@@ -1,23 +1,66 @@
 .table {
   border: solid black 1px;
-  width: 50%;
+  width: 100%;
   border-collapse: collapse;
+
+  /* margin-left: 10px;
+  margin-right: 10px; */
+  background-color: rgb(104, 101, 101);
+  color: white;
+}
+
+.header-columns {
+  height: 40px;
+  width: 200px;
+  border: solid black 1px;
+  text-align: center;
+}
+.header-columns:hover {
+  background-color: rgb(190, 186, 186);
 }
 
 .table-row {
   border: solid black 1px;
   cursor: pointer;
+  width: 200px;
+  padding: 15px;
+  margin: 15px;
+}
+.icon {
+  color: black;
 }
 
-.state-column {
-  border: solid black 1px;
-  /* text-align: center; */
-}
-.cases-column {
+.region-column {
   border: solid black 1px;
   text-align: center;
 }
-.deaths-column {
+.totalCases-column {
   border: solid black 1px;
   text-align: center;
 }
+.totalDeaths-column {
+  border: solid black 1px;
+  text-align: center;
+}
+.totalRecovered {
+  border: solid black 1px;
+  text-align: center;
+}
+.population-column {
+  border: solid black 1px;
+  text-align: center;
+}
+.totalActive-column {
+  border: solid black 1px;
+  text-align: center;
+}
+.totalRecovered-column {
+  border: solid black 1px;
+  text-align: center;
+}
+
+/* .table-column {
+  width: 400px;
+  padding: 15px;
+  margin: 15px;
+} */

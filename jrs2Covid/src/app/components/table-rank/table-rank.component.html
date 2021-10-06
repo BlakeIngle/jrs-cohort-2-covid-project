@@ -2,13 +2,14 @@
 
 <table class="table">
     <tr class="table-row">
-        <th *ngFor="let header of tableHeaders" (click)="changeSortingMethod(header.value)">
+        <th *ngFor="let header of tableHeaders" class="header-columns" (click)="changeSortingMethod(header.value)">
             {{header.label}}
-            <fa-icon [icon]="sortingColumn != header.value ? faSort : (sortingOrder == 1 ? faSortUp : faSortDown)">
+            <fa-icon class="icon"
+                [icon]="sortingColumn != header.value ? faSort : (sortingOrder == 1 ? faSortUp : faSortDown)">
             </fa-icon>
         </th>
     </tr>
-    <tr *ngFor="let region of data">
+    <tr class="table-row" *ngFor="let region of data">
         <td *ngFor="let col of tableHeaders" class="{{col.value}}-column">
             {{region[col.value]}}
         </td>

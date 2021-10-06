@@ -1,20 +1,23 @@
-<h2>States Page</h2>
-
-<div>{{ stateData?.region | uppercase }}</div>
+<h2>{{ stateData?.region | uppercase }}</h2>
 
 <div>Total Cases: {{ stateData?.totalCases }}</div>
 <div>Active Cases: {{ stateData?.totalActive }}</div>
 <div>Total Deaths: {{ stateData?.totalDeaths }}</div>
 
-<div>
-  Vaccinations In The Last 30 Days:
-  {{ vaxData ? vaxData[vaxData.length - 1].vaccines : "" }}
+<div *ngIf="stateData?.timeline?.vaccinations">
+  Total Vaccination:
+
+  {{stateData.totalVaccinations}}
+  <br>
+  Vaccinations In The Last {{stateData.timeline.vaccinations.length}} Days:
+  {{stateData.totalVaccinations - stateData.timeline.vaccinations[0].value}}
+
 </div>
 
 <div>
-  Vaccinations Administered Yesterday:
+  Vaccinations Administered Today:
 
-  {{ dailyVax ? dailyVax.timeline[dailyVax.timeline.length - 2].daily : "" }}
+  {{ stateData?.todayVaccinations }}
 </div>
 
 
