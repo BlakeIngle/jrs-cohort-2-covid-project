@@ -1,0 +1,19 @@
+<p>table-rank works!</p>
+
+<table class="table">
+    <tr class="table-row">
+        <th *ngFor="let header of tableHeaders" (click)="changeSortingMethod(header.value)">
+            {{header.label}}
+            <fa-icon [icon]="sortingColumn != header.value ? faSort : (sortingOrder == 1 ? faSortUp : faSortDown)">
+            </fa-icon>
+        </th>
+    </tr>
+    <tr *ngFor="let region of data">
+        <td *ngFor="let col of tableHeaders" class="{{col.value}}-column">
+            {{region[col.value]}}
+        </td>
+        <!-- <td class="state-column"><a [routerLink]="region.region">{{region.region}}</a></td>
+        <td class="cases-column">{{region.totalCases}}</td>
+        <td class="deaths-column">{{region.totalDeaths}}</td> -->
+    </tr>
+</table>

@@ -17,7 +17,7 @@ export class JohnsHopkinsService {
     return this.http.get(`https://disease.sh/v3/covid-19/jhucsse/counties/${county}`);
   }
   getCountyNumbersByState(state: string, day?: number) {
-    return this.http.get(`https://disease.sh/v3/covid-19/historical/usacounties/${state}?lastdays=${day ? day : 1}`);
+    return this.http.get(`https://disease.sh/v3/covid-19/historical/usacounties/${state.toLowerCase()}?lastdays=${day ? day : 1}`);
   }
 
   convertData(data: any): RegionData {
@@ -49,7 +49,7 @@ export class JohnsHopkinsService {
 
       todayDeaths = (deaths.length < 2 ? null : deaths[deaths.length - 1].value
         - deaths[deaths.length - 2].value)
-        
+
     } else if (data.stats) {
       todayCases = null;
       cases = [{
@@ -63,15 +63,16 @@ export class JohnsHopkinsService {
       }];
     }
 
+
     let county = counties.find(c => c.subregion.toLowerCase() == data.county.toLowerCase() && data.province.toLowerCase() == c.region.toLowerCase())
 
     let region: RegionData = {
       region: data.county,
       parentRegion: data.province,
 
-      fips: county.us_county_fips,
-      stateFips: county.us_state_fips,
-      population: county.population,
+      fips: county ? county.us_county_fips : null,
+      stateFips: county ? county.us_state_fips : null,
+      population: county ? county.population : null,
 
       totalCases: cases[cases.length - 1].value,
       totalDeaths: deaths[deaths.length - 1].value,

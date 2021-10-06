@@ -1,0 +1,23 @@
+.table {
+  border: solid black 1px;
+  width: 50%;
+  border-collapse: collapse;
+}
+
+.table-row {
+  border: solid black 1px;
+  cursor: pointer;
+}
+
+.state-column {
+  border: solid black 1px;
+  /* text-align: center; */
+}
+.cases-column {
+  border: solid black 1px;
+  text-align: center;
+}
+.deaths-column {
+  border: solid black 1px;
+  text-align: center;
+}
