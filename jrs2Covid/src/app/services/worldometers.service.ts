@@ -26,11 +26,13 @@ export class WorldometersService {
 
     let region = new RegionData();
 
+    let fipsState = counties.find(c => c.region == state.state)
+
     region = {
       region: state.state,
       parentRegion: "USA",
       fips: null,
-      stateFips: counties.find(c => c.region == state.state).us_state_fips,
+      stateFips: fipsState ? fipsState.us_state_fips : null,
       population: state.population,
 
       totalCases: state.cases,
@@ -59,8 +61,6 @@ export class WorldometersService {
       }
 
     }
-
-    console.log(region);
 
     return region;
   }

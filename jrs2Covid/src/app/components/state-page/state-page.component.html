@@ -1,1 +1,34 @@
-<p>state-page works!</p>
+<h2>States Page</h2>
+
+<div>{{ stateData?.region | uppercase }}</div>
+
+<div>Total Cases: {{ stateData?.totalCases }}</div>
+<div>Active Cases: {{ stateData?.totalActive }}</div>
+<div>Total Deaths: {{ stateData?.totalDeaths }}</div>
+
+<div>
+  Vaccinations In The Last 30 Days:
+  {{ vaxData ? vaxData[vaxData.length - 1].vaccines : "" }}
+</div>
+
+<div>
+  Vaccinations Administered Yesterday:
+
+  {{ dailyVax ? dailyVax.timeline[dailyVax.timeline.length - 2].daily : "" }}
+</div>
+
+
+<div>
+  Counties:
+  <br>
+  <select [(ngModel)]="selectedCounty">
+    <option *ngFor="let subregion of countiesNames" value="{{subregion}}">
+      {{subregion}}
+    </option>
+  </select>
+  <br>
+  <button type="button" (click)="onCountyClicked()">Go To County Page</button>
+
+</div>
+
+<app-table-rank [data]="counties"></app-table-rank>
