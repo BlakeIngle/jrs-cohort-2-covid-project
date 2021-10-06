@@ -17,6 +17,8 @@ export class LineGraphComponent implements OnInit {
   height = 500;
   radius = 250;
 
+  yAxisValue = "totalCases"
+
   constructor() { }
 
   ngOnInit(): void {
@@ -39,8 +41,6 @@ export class LineGraphComponent implements OnInit {
       return;
     }
 
-    console.log(this.regions)
-
     let line = d3.line()
       .defined(d => !isNaN(d.value))
       .x(d => x(d.date.getTime()))
@@ -51,24 +51,16 @@ export class LineGraphComponent implements OnInit {
     let minDate = cases[0].date.getTime();
 
     let xDomain = []
-    for(let date of this.regions[0].timeline.cases) {
+    for (let date of this.regions[0].timeline.cases) {
       xDomain.push(date.date);
     }
-   
 
+    // make x Scale
     let x = d3.scaleUtc()
       .domain([minDate, maxDate])
       .range([this.margin, this.width - this.margin])
 
-    let maxCases = d3.max(this.regions, r => r.totalCases)
-    let minCases = d3.min(this.regions, r => r.timeline.cases[0].value)
-    let minDeaths = d3.min(this.regions, r => r.timeline.deaths[0].value)
-
-
-    let y = d3.scaleLinear()
-      .domain([d3.min([minCases, minDeaths]), maxCases])
-      .nice()
-      .range([this.height - this.margin, this.margin])
+    let y = this.makeYScale();
 
     let tickLabels = [minDate, maxDate]
 
@@ -76,11 +68,11 @@ export class LineGraphComponent implements OnInit {
       .attr("transform", `translate(0,${this.height - this.margin})`)
       .call(d3.axisBottom(x)
         // .ticks(10)
-        .tickFormat( xDomain.length > 100 ?
+        .tickFormat(xDomain.length > 100 ?
           this.monthYearFormat : this.dayMonthFormat)
-          // use month/year
+        // use month/year
         // .ticks(tickLabels.length)
-        // .tickSizeOuter(0)
+        .tickSizeOuter(0)
       )
 
     let yAxis = g => g
@@ -88,12 +80,12 @@ export class LineGraphComponent implements OnInit {
       .call(d3.axisLeft(y))
       .call(g => g.select(".domain").remove())
       .call(g => g.select(".tick:last-of-type text").clone()
-        .attr("x", -100)
+        .attr("x", -90)
         .attr("y", 140)
         .attr("text-anchor", "start")
         .attr("font-weight", "bold")
-        .text("Cases")
-      )
+        .text(this.yAxisValue == 'totalCases' ? 'Cases' : 'Deaths')
+      );
 
     this.svg.append("g")
       .call(xAxis);
@@ -108,16 +100,23 @@ export class LineGraphComponent implements OnInit {
       .attr("stroke-linecap", "round")
       .selectAll("path")
       .data(this.regions);
-    regions
-      .join("path")
-      .attr("stroke", "steelblue")
-      .style("mix-blend-mode", "multiply")
-      .attr("d", d => line(d.timeline.cases));
 
-    regions.join("path")
-      .attr("stroke", "red")
-      .style("mix-blend-mode", "multiply")
-      .attr("d", d => line(d.timeline.deaths));
+    if (this.yAxisValue == 'totalCases') {
+      regions
+        .join("path")
+        .attr("stroke", "steelblue")
+        .style("mix-blend-mode", "multiply")
+        .attr("d", d => line(d.timeline.cases)
+        );
+    } else {
+      regions
+        .join("path")
+        .attr("stroke", "red")
+        .style("mix-blend-mode", "multiply")
+        .attr("d", d => line(d.timeline.deaths)
+        );
+    }
+
   }
 
   monthYearFormat(d) {
@@ -126,6 +125,30 @@ export class LineGraphComponent implements OnInit {
 
   dayMonthFormat(d) {
     return d3.timeFormat("%b %d")(d);
+  }
+
+  makeYScale() {
+    let domain;
+    if (this.yAxisValue == 'totalCases') {
+      let maxCases = d3.max(this.regions, r => r.totalCases)
+      let minCases = d3.min(this.regions, r => r.timeline.cases[0].value)
+      domain = [minCases, maxCases]
+    } else {
+      let maxDeaths = d3.max(this.regions, r => r.totalDeaths)
+      let minDeaths = d3.min(this.regions, r => r.timeline.deaths[0].value)
+      domain = [minDeaths, maxDeaths]
+    }
+
+    return d3.scaleLinear()
+      .domain(domain)
+      .nice()
+      .range([this.height - this.margin, this.margin])
+  }
+
+  changeYAxis() {
+    this.svg.remove();
+    this.createSvg();
+    this.drawLineGraph();
   }
 
 }

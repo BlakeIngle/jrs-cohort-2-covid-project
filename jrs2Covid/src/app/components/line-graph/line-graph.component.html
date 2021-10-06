@@ -1,2 +1,8 @@
 <p>line-graph works!</p>
+<input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="changeYAxis()" name="yAxisValue" value="totalCases" id="casesRadio">
+<label for="casesRadio">Cases</label>
+<br>
+<input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="changeYAxis()" name="yAxisValue" value="totalDeaths" id="casesDeaths">
+<label for="casesDeaths">Deaths</label>
+
 <div class="line-canvas"></div>
