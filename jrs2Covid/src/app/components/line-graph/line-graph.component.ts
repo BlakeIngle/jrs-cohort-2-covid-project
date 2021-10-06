@@ -39,7 +39,6 @@ export class LineGraphComponent implements OnInit {
       return;
     }
 
-    console.log("its working")
     console.log(this.regions)
 
     let line = d3.line()
@@ -47,13 +46,17 @@ export class LineGraphComponent implements OnInit {
       .x(d => x(d.date.getTime()))
       .y(d => y(d.value))
 
-
     let cases = this.regions[0].timeline.cases
-    let minDate = cases[cases.length - 1].date.getTime();
-    let maxDate = cases[0].date.getTime();
+    let maxDate = cases[cases.length - 1].date.getTime();
+    let minDate = cases[0].date.getTime();
 
+    let xDomain = []
+    for(let date of this.regions[0].timeline.cases) {
+      xDomain.push(date.date);
+    }
+   
 
-    let x = d3.scaleLinear()
+    let x = d3.scaleUtc()
       .domain([minDate, maxDate])
       .range([this.margin, this.width - this.margin])
 
@@ -61,13 +64,42 @@ export class LineGraphComponent implements OnInit {
     let minCases = d3.min(this.regions, r => r.timeline.cases[0].value)
     let minDeaths = d3.min(this.regions, r => r.timeline.deaths[0].value)
 
-    console.log("x domain: ", [minDate, maxDate])
-    console.log("x range: ", [this.margin, this.width - this.margin])
 
     let y = d3.scaleLinear()
       .domain([d3.min([minCases, minDeaths]), maxCases])
       .nice()
-      .range([this.margin, this.height - this.margin])
+      .range([this.height - this.margin, this.margin])
+
+    let tickLabels = [minDate, maxDate]
+
+    let xAxis = g => g
+      .attr("transform", `translate(0,${this.height - this.margin})`)
+      .call(d3.axisBottom(x)
+        // .ticks(10)
+        .tickFormat( xDomain.length > 100 ?
+          this.monthYearFormat : this.dayMonthFormat)
+          // use month/year
+        // .ticks(tickLabels.length)
+        // .tickSizeOuter(0)
+      )
+
+    let yAxis = g => g
+      .attr("transform", `translate(${this.margin},0)`)
+      .call(d3.axisLeft(y))
+      .call(g => g.select(".domain").remove())
+      .call(g => g.select(".tick:last-of-type text").clone()
+        .attr("x", -100)
+        .attr("y", 140)
+        .attr("text-anchor", "start")
+        .attr("font-weight", "bold")
+        .text("Cases")
+      )
+
+    this.svg.append("g")
+      .call(xAxis);
+
+    this.svg.append("g")
+      .call(yAxis);
 
     let regions = this.svg.append("g")
       .attr("fill", "none")
@@ -83,9 +115,17 @@ export class LineGraphComponent implements OnInit {
       .attr("d", d => line(d.timeline.cases));
 
     regions.join("path")
-    .attr("stroke", "red")
+      .attr("stroke", "red")
       .style("mix-blend-mode", "multiply")
       .attr("d", d => line(d.timeline.deaths));
-
   }
+
+  monthYearFormat(d) {
+    return d3.timeFormat("%b %Y")(d);
+  }
+
+  dayMonthFormat(d) {
+    return d3.timeFormat("%b %d")(d);
+  }
+
 }
