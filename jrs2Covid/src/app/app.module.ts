@@ -13,6 +13,7 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { LineGraphComponent } from './components/line-graph/line-graph.component';
 import { ChoroplethComponent } from './components/choropleth/choropleth.component';
 import { TableRankComponent } from './components/table-rank/table-rank.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { TableRankComponent } from './components/table-rank/table-rank.component
     PieChartComponent,
     LineGraphComponent,
     ChoroplethComponent,
-    TableRankComponent
+    TableRankComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
