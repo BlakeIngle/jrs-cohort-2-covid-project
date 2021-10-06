@@ -1,1 +1,15 @@
-<p>county-page works!</p>
+<div class="root">
+    <h2>County COVID Numbers</h2>
+
+    <div *ngIf="county">
+        <p class="county">County: {{county.region}}</p>
+        <p class="state">State: {{county.parentRegion}}</p>
+        <p>Population: {{county.population}}</p>
+        <p>FIPS: {{county.fips}}</p>
+        <p>State FIPS: {{county.stateFips}}</p>
+        <p>Total Cases: {{county.totalCases}}</p>
+        <p>Total Deaths: {{county.totalDeaths}}</p>
+        <br>
+    </div>
+    <app-line-graph [regions]="[county]"></app-line-graph>
+</div>

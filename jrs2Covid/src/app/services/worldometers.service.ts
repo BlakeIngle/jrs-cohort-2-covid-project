@@ -30,7 +30,7 @@ export class WorldometersService {
       region: state.state,
       parentRegion: "USA",
       fips: null,
-      stateFips: counties.find(c => c.region == state.state).us_state_fips,
+      stateFips: county ? county.us_state_fips : null,
       population: state.population,
 
       totalCases: state.cases,

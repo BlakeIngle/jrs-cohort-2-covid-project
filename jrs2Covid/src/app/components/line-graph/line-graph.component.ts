@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import { WorldometersService } from 'src/app/services/worldometers.service';
+import { RegionData } from 'src/app/models/regionData.model';
 
 @Component({
   selector: 'app-line-graph',
@@ -9,26 +9,23 @@ import { WorldometersService } from 'src/app/services/worldometers.service';
 })
 export class LineGraphComponent implements OnInit {
 
+  @Input() regions: RegionData[];
+
   svg;
   margin = 100;
   width = 750;
   height = 500;
   radius = 250;
 
-  data;
-
-
-  constructor(private worldService: WorldometersService) { }
+  constructor() { }
 
   ngOnInit(): void {
+    this.createSvg();
+    this.drawLineGraph();
+  }
 
-    this.worldService.getSCVaccines()
-      .subscribe(data => {
-        this.data = data
-        // console.log(data);
-        this.createSvg()
-        this.drawLineGraph(data)
-      })
+  ngOnChanges() {
+    this.drawLineGraph();
   }
 
   createSvg() {
@@ -37,99 +34,58 @@ export class LineGraphComponent implements OnInit {
       .attr("viewBox", [0, 0, this.width, this.height]);
   }
 
-  drawChart() {
+  drawLineGraph() {
+    if (!this.regions || this.regions.length <= 0 || this.regions[0] == null) {
+      return;
+    }
+
+    console.log("its working")
+    console.log(this.regions)
+
+    let line = d3.line()
+      .defined(d => !isNaN(d.value))
+      .x(d => x(d.date.getTime()))
+      .y(d => y(d.value))
 
 
-    var x = d3.scaleBand()
-      .domain(d3.range(this.data.length))
-      .range([this.margin, this.width - this.margin])
-      .padding(0.1)
-
-    var maxCases = d3.max(this.data, d => d.cases);
-
-    var y = d3.scaleLinear()
-      .domain([0, maxCases]).nice()
-      .range([this.height - this.margin, this.margin])
-
-    var color = d3.scaleLinear()
-      .domain([0, maxCases])
-      .range(["#4444FF", "#FF4444"])
-
-    var xAxis = g => g
-      .attr("transform", `translate(0,${this.height - this.margin})`)
-      .call(d3.axisBottom(x).tickFormat(i => this.data[i].state).tickSizeOuter(0))
-
-    this.svg.selectAll("bar")
-      .data(this.data)
-      .enter()
-      .append("rect")
-      .attr("x", (d, i) => x(i))
-      .attr("y", d => y(d.cases))
-      .attr("height", d => y(0) - y(d.cases))
-      .attr("width", x.bandwidth())
-      .attr('fill', (d) => color(d.cases))
-  }
+    let cases = this.regions[0].timeline.cases
+    let minDate = cases[cases.length - 1].date.getTime();
+    let maxDate = cases[0].date.getTime();
 
 
-  drawLineGraph(data) {
-
-
-    var vaxData = Object.keys(data.timeline).map(key => {
-      return {
-        date: new Date(key),
-        vaccinations: data.timeline[key]
-      }
-    });
-
-    var vaxExtent = [vaxData[0].vaccinations, vaxData[vaxData.length - 1].vaccinations];
-
-    var y = d3.scaleLinear()
-      .domain(vaxExtent).nice()
-      .range([this.height - this.margin, this.margin])
-
-    var x = d3.scaleLinear()
-      .domain([vaxData[0].date.getTime(), vaxData[vaxData.length - 1].date.getTime()]).nice()
+    let x = d3.scaleLinear()
+      .domain([minDate, maxDate])
       .range([this.margin, this.width - this.margin])
 
-    var xAxis = (g) => g
-      .attr("transform", `translate(0,${this.height - this.margin})`)
-      .call(d3.axisBottom(x)
-        .ticks(10)
-        .tickFormat(function (d) {
-          let time = new Date(d)
-          return `${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}`;
-        })
-      )
-      .selectAll('text')
-      .attr("transform", "rotate(-45), translate(-8, -5)")
-      .style("text-anchor", "end");
+    let maxCases = d3.max(this.regions, r => r.totalCases)
+    let minCases = d3.min(this.regions, r => r.timeline.cases[0].value)
+    let minDeaths = d3.min(this.regions, r => r.timeline.deaths[0].value)
 
-    var yAxis = g => g
-      .attr("transform", `translate(${this.margin},0)`)
-      .call(d3.axisLeft(y))
+    console.log("x domain: ", [minDate, maxDate])
+    console.log("x range: ", [this.margin, this.width - this.margin])
 
-    this.svg.append("g")
-      .call(xAxis);
+    let y = d3.scaleLinear()
+      .domain([d3.min([minCases, minDeaths]), maxCases])
+      .nice()
+      .range([this.margin, this.height - this.margin])
 
-    this.svg.append("g")
-      .call(yAxis);
-
-
-    var color = d3.scaleLinear()
-      .domain(vaxExtent)
-      .range(["#000000", "#000000"])
-
-    this.svg.append("path")
-      .datum(vaxData)
+    let regions = this.svg.append("g")
       .attr("fill", "none")
-      .attr("stroke", 'steelblue')
       .attr("stroke-width", 1.5)
       .attr("stroke-linejoin", "round")
       .attr("stroke-linecap", "round")
-      .attr("d", d3.line()
-        // .defined(d => !isNaN(d.value))
-        .x(d => x(d.date.getTime()))
-        .y(d => y(d.vaccinations))
-      );
+      .selectAll("path")
+      .data(this.regions);
+    regions
+      .join("path")
+      .attr("stroke", "steelblue")
+      .style("mix-blend-mode", "multiply")
+      .attr("d", d => line(d.timeline.cases));
+
+    regions.join("path")
+    .attr("stroke", "red")
+      .style("mix-blend-mode", "multiply")
+      .attr("d", d => line(d.timeline.deaths));
+
   }
 }
