@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { feature, mesh } from 'topojson';
 import { WorldometersService } from '../../services/worldometers.service';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import countiesPopulation from '../../../assets/counties_population.json';
 import usTopojson from '../../../assets/counties-albers-10m.json';
+import { RegionDataService } from 'src/app/services/region-data.service';
+import { RegionData } from 'src/app/models/regionData.model';
+import { JohnsHopkinsService } from 'src/app/services/johns-hopkins.service';
 
 /**
  * A choropleth map is a type of thematic map in which a set of
@@ -28,7 +30,7 @@ export class ChoroplethComponent implements OnInit {
   height = 400;
 
   us: any; // USA topo data
-  data: any;
+  data: RegionData[];
 
   states: Map<unknown, unknown>;
   countiesMap: Map<unknown, unknown>;
@@ -45,25 +47,18 @@ export class ChoroplethComponent implements OnInit {
   colorScale;
 
   constructor(private worldService: WorldometersService,
-    private http: HttpClient,
+    private regionDataService: RegionDataService,
+    private jHopService: JohnsHopkinsService,
     private router: Router) { }
 
   ngOnInit(): void {
     let populationData = countiesPopulation;
     this.us = usTopojson;
 
-    this.worldService.getUSACountyNumbers()
+    this.jHopService.getUSACountyNumbers()
       .subscribe((data: any) => {
-        this.data = data;
-        this.data = this.data.map(d => {
-          let c = populationData.find(p =>
-            p.region == d.province && p.subregion == d.county
-          );
-          d.fips = c?.us_county_fips;
-          d.population = Number(c?.population);
-
-          return d;
-        })
+        this.data = this.jHopService.convertData(data)
+        this.regionDataService.cleanUp(this.data);
 
         this.states = new Map(this.us.objects.states.geometries.map(d => [d.id, d.properties]))
         this.countiesMap = new Map(this.us.objects.counties.geometries.map(d => [d.properties.name, d.id]))
@@ -127,8 +122,8 @@ export class ChoroplethComponent implements OnInit {
         let countyName = d.properties.name;
         let stateName = (this.states.get(d.id.slice(0, 2)) as any).name;
 
-        let dataActual = this.data.find(c => c.county == countyName && c.province == stateName)
-        return `${countyName}, ${stateName} - ${dataActual ? dataActual.stats.confirmed + ' total cases' : 'no data'
+        let dataActual = this.data.find(c => c.region == countyName && c.parentRegion == stateName)
+        return `${countyName}, ${stateName} - ${dataActual ? dataActual.totalCases + ' total cases' : 'no data'
           }`
       });
 
@@ -157,18 +152,19 @@ export class ChoroplethComponent implements OnInit {
 
     let countyName = d.properties.name;
     let stateName = (this.states.get(d.id.slice(0, 2)) as any).name;
-    let dataActual = (this.data as any[]).find(c => c.county == countyName && c.province == stateName);
+    let dataActual = (this.data).find(c => c.region == countyName && c.parentRegion == stateName);
 
     switch (this.fillMode) {
       case 1:
-        return this.getActualColor(dataActual?.stats.confirmed);
+        return this.getActualColor(dataActual?.totalCases);
       case 4:
-        return this.getActualColor(dataActual?.stats.confirmed / dataActual?.population);
+        return this.getActualColor(dataActual?.totalCases / dataActual?.population);
       case 2:
-        return this.getActualColor(dataActual?.stats.deaths);
+        return this.getActualColor(dataActual?.totalDeaths);
       case 5:
-        return this.getActualColor(dataActual.stats.deaths / dataActual.population);
-
+        return this.getActualColor(dataActual.totalDeaths / dataActual.population);
+      default:
+        return "#FFF";
     }
   }
 
@@ -188,28 +184,28 @@ export class ChoroplethComponent implements OnInit {
 
     switch (this.fillMode) {
       case 1:
-        min = d3.min(this.data, d => d.stats.confirmed)
-        max = d3.max(this.data, d => d.stats.confirmed)
+        min = d3.min(this.data, d => d.totalCases)
+        max = d3.max(this.data, d => d.totalCases)
         break;
       case 4:
-        min = d3.min(this.data, d => d.stats.confirmed / d.population)
-        max = d3.max(this.data, d => d.stats.confirmed / d.population)
+        min = d3.min(this.data, d => d.totalCases / d.population)
+        max = d3.max(this.data, d => !d.population ? 0 : (d.totalCases / d.population));
         break;
       case 2:
-        min = d3.min(this.data, d => d.stats.deaths)
-        max = d3.max(this.data, d => d.stats.deaths)
+        min = d3.min(this.data, d => d.totalDeaths)
+        max = d3.max(this.data, d => d.totalDeaths)
         break;
       case 5:
-        min = d3.min(this.data, d => d.stats.deaths / d.population)
-        max = d3.max(this.data, d => d.stats.deaths / d.population)
+        min = d3.min(this.data, d => d.totalDeaths / d.population)
+        max = d3.max(this.data, d => d.totalDeaths / d.population)
         break;
       case 3:
-        min = d3.min(this.data, d => d.stats.confirmed)
-        max = d3.max(this.data, d => d.stats.confirmed)
+        min = d3.min(this.data, d => d.totalCases)
+        max = d3.max(this.data, d => d.totalCases)
         break;
       case 6:
-        min = d3.min(this.data, d => d.stats.confirmed / d.population)
-        max = d3.max(this.data, d => d.stats.confirmed / d.population)
+        min = d3.min(this.data, d => d.totalCases / d.population)
+        max = d3.max(this.data, d => d.totalCases / d.population)
         break;
     }
 
@@ -235,7 +231,7 @@ export class ChoroplethComponent implements OnInit {
     this.legend(legendColor, { title: "hi" });
 
     this.svg.selectAll('.county')
-      .attr('fill', (d, i) => this.fill);
+      .attr('fill', (d, i) => { return this.fill(d, i) });
   }
 
   legend(color, title) {
