@@ -95,6 +95,8 @@ export class JohnsHopkinsService {
   public convertData(data: any | any[]): RegionData[] {
     if (Array.isArray(data)) {
       return data.map(d => { return this.convertOneData(d) })
+        .filter(d => d.region != "unassigned" && d.region.search("out of ") == -1)
+      // do not include 'unassigned' regions or the 'out of ...' regions
     } else {
       return [this.convertOneData(data)];
     }
