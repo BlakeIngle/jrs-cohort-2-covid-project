@@ -12,10 +12,6 @@ export class WorldometersService {
 
   constructor(private http: HttpClient) { }
 
-  getUSACountyNumbers() {
-    return this.http.get(`https://disease.sh/v3/covid-19/jhucsse/counties`)
-  }
-
   getSCVaccines() {
     return this.http.get(`https://disease.sh/v3/covid-19/vaccine/coverage/states/south%20carolina?lastdays=365&fullData=false`)
   }
@@ -30,7 +26,6 @@ export class WorldometersService {
 
   private convertOneData(state): RegionData {
     let counties: any[] = countiesPopulation;
-
 
     let region = new RegionData();
 

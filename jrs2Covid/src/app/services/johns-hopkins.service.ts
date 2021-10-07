@@ -10,12 +10,18 @@ export class JohnsHopkinsService {
 
   constructor(private http: HttpClient) { }
 
+  getUSACountyNumbers() {
+    return this.http.get(`https://disease.sh/v3/covid-19/jhucsse/counties`)
+  }
+
   getAllCountyNumbers() {
     return this.http.get(`https://disease.sh/v3/covid-19/jhucsse/counties`);
   }
+
   getCountyNumbers(county: string) {
     return this.http.get(`https://disease.sh/v3/covid-19/jhucsse/counties/${county}`);
   }
+
   getCountyNumbersByState(state: string, day?: number) {
     return this.http.get(`https://disease.sh/v3/covid-19/historical/usacounties/${state.toLowerCase()}?lastdays=${day ? day : 1}`);
   }
@@ -95,7 +101,7 @@ export class JohnsHopkinsService {
   public convertData(data: any | any[]): RegionData[] {
     if (Array.isArray(data)) {
       return data.map(d => { return this.convertOneData(d) })
-        .filter(d => d.region != "unassigned" && d.region.search("out of ") == -1)
+        .filter(d => d.region.toLowerCase() != "unassigned" && (d.region.toLowerCase()).search("out of ") == -1)
       // do not include 'unassigned' regions or the 'out of ...' regions
     } else {
       return [this.convertOneData(data)];

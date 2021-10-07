@@ -15,11 +15,13 @@ export class RegionDataService {
 
 
   private cleanUpOne(region: RegionData) {
+
     if (!region.stateFips && region.fips) {
       region.fips = region.fips.slice(0, 2) // first 2 characters
     }
     if (!region.fips || !region.stateFips || !region.population) {
       //check if county
+
       let county = countyPopulations.find(c => c.region.toLowerCase() == region.parentRegion.toLowerCase()
         && c.subregion.toLowerCase() == region.region.toLowerCase());
       if (county) {
