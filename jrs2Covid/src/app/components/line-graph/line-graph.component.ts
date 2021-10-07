@@ -16,8 +16,7 @@ export class LineGraphComponent implements OnInit {
   width = 750;
   height = 500;
   radius = 250;
-
-  yAxisValue = "totalCases"
+  yAxisValue: 'totalCases' | 'totalDeaths' = "totalCases"
 
   constructor() { }
 
@@ -34,6 +33,13 @@ export class LineGraphComponent implements OnInit {
     this.svg = d3.select(".line-canvas")
       .append("svg")
       .attr("viewBox", [0, 0, this.width, this.height]);
+    this.svg.append('rect')
+      .attr('width', this.width - this.margin * 2)
+      .attr('height', this.height - this.margin * 2)
+      .attr('x', this.margin)
+      .attr('y', this.margin)
+      .attr('class', 'graph-content')
+      .attr('fill', this.yAxisValue == 'totalCases' ? '#dbf3fa' : '#ffeded')
   }
 
   drawLineGraph() {

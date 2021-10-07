@@ -55,7 +55,7 @@ export class NytService {
             }],
             deaths: [{
               date: date,
-              value: first.deats
+              value: first.deaths
             }],
             recovered: []
           }
