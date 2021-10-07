@@ -1,5 +1,6 @@
 <h2>{{ stateData?.region | uppercase }}</h2>
 
+<div>Population: {{stateData.population}}</div>
 <div>Total Cases: {{ stateData?.totalCases }}</div>
 <div>Active Cases: {{ stateData?.totalActive }}</div>
 <div>Total Deaths: {{ stateData?.totalDeaths }}</div>
@@ -35,3 +36,6 @@
 </div>
 
 <app-table-rank [data]="counties"></app-table-rank>
+
+
+<pie-chart-parent [region]="stateData"></pie-chart-parent>

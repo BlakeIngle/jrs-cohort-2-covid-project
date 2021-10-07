@@ -6,6 +6,7 @@ import { JohnsHopkinsService } from '../../services/johns-hopkins.service';
 import { RegionData } from '../../models/regionData.model.js';
 import { VaccineService } from 'src/app/services/vaccine.service';
 import { RegionDataService } from 'src/app/services/region-data.service';
+import { NytService } from 'src/app/services/nyt.service';
 
 
 @Component({
@@ -29,11 +30,13 @@ export class StatePageComponent implements OnInit {
   stateQuery: any;
 
   constructor(private worldService: WorldometersService,
+    private johnHopkinsService: JohnsHopkinsService,
+    private nytService: NytService,
+    private vaccineService: VaccineService,
+    private regionDataService: RegionDataService,
     private route: ActivatedRoute,
     private router: Router,
-    private johnHopkinsService: JohnsHopkinsService,
-    private vaccineService: VaccineService,
-    private regionDataService: RegionDataService) { }
+  ) { }
 
   ngOnInit(): void {
     this.state = this.route.snapshot.paramMap.get('state');
@@ -51,6 +54,12 @@ export class StatePageComponent implements OnInit {
             let vaxData = this.vaccineService.convertData(data)[0];
             this.stateData.timeline.vaccinations = vaxData.timeline.vaccinations;
             this.regionDataService.cleanUp(this.stateData)
+
+            this.nytService.getStateData(this.state, 100)
+              .subscribe((data: any) => {
+                let cases = this.nytService.convertData(data)[0].timeline.cases;
+                this.stateData.timeline.cases = cases;
+              });
           })
       });
 

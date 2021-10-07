@@ -14,6 +14,7 @@ import { LineGraphComponent } from './components/line-graph/line-graph.component
 import { ChoroplethComponent } from './components/choropleth/choropleth.component';
 import { TableRankComponent } from './components/table-rank/table-rank.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { PieChartParentComponent } from './components/pie-chart-parent/pie-chart-parent.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     LineGraphComponent,
     ChoroplethComponent,
     TableRankComponent,
-    HomePageComponent
+    HomePageComponent,
+    PieChartParentComponent
   ],
   imports: [
     BrowserModule,
