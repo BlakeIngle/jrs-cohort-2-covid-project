@@ -6,19 +6,14 @@
 <div>Total Deaths: {{ stateData?.totalDeaths }}</div>
 
 <div *ngIf="stateData?.timeline?.vaccinations">
-  Total Vaccination:
-
-  {{stateData.totalVaccinations}}
-  <br>
-  Vaccinations In The Last {{stateData.timeline.vaccinations.length}} Days:
+  Total Vaccination: {{stateData.totalVaccinations}}
+  <br> Vaccinations In The Last {{stateData.timeline.vaccinations.length}} Days:
   {{stateData.totalVaccinations - stateData.timeline.vaccinations[0].value}}
 
 </div>
 
 <div>
-  Vaccinations Administered Today:
-
-  {{ stateData?.todayVaccinations }}
+  Vaccinations Administered Today: {{ stateData?.todayVaccinations }}
 </div>
 
 
@@ -39,3 +34,4 @@
 
 
 <pie-chart-parent [region]="stateData"></pie-chart-parent>
+<!-- <app-line-graph [regions]="counties"></app-line-graph> -->

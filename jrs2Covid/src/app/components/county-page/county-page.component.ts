@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { JohnsHopkinsService } from 'src/app/services/johns-hopkins.service';
-import * as d3 from 'd3';
 import { RegionData } from 'src/app/models/regionData.model';
 import { ActivatedRoute } from '@angular/router';
 import { RegionDataService } from 'src/app/services/region-data.service';

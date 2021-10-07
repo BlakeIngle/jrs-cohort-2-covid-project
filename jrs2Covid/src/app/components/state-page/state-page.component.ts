@@ -73,7 +73,7 @@ export class StatePageComponent implements OnInit {
   }
 
   onCountyClicked() {
-    this.router.navigate([this.state, this.selectedCounty]);
+    this.router.navigate([this.state, this.selectedCounty.toLowerCase()]);
   }
 
 
