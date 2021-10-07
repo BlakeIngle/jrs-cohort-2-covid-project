@@ -1,15 +1,22 @@
 <div class="root">
     <h2>County COVID Numbers</h2>
-
     <div *ngIf="county">
-        <p class="county">County: {{county.region}}</p>
-        <p class="state">State: {{county.parentRegion}}</p>
-        <p>Population: {{county.population}}</p>
-        <p>FIPS: {{county.fips}}</p>
-        <p>State FIPS: {{county.stateFips}}</p>
-        <p>Total Cases: {{county.totalCases}}</p>
-        <p>Total Deaths: {{county.totalDeaths}}</p>
-        <br>
+        <table>
+            <tr>
+                <th class="county">County</th>
+                <th class="state">State</th>
+                <th>Poplulation</th>
+                <th>Total Cases</th>
+                <th>Total Deaths</th>
+            </tr>
+            <tr>
+                <td>{{county.region}}</td>
+                <a routerLink="..">{{county.parentRegion}}</a>
+                <td>{{county.population}}</td>
+                <td>{{county.totalCases}}</td>
+                <td>{{county.totalDeaths}}</td>
+            </tr>
+        </table>
     </div>
     <app-line-graph [regions]="[county]"></app-line-graph>
 </div>
