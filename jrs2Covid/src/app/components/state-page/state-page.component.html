@@ -1,6 +1,6 @@
-<h2>{{ stateData?.region | uppercase }}</h2>
+<h2>{{ stateData ? stateData.region : "Loading" | uppercase }}</h2>
 
-<div>Population: {{stateData.population}}</div>
+<div>Population: {{stateData?.population}}</div>
 <div>Total Cases: {{ stateData?.totalCases }}</div>
 <div>Active Cases: {{ stateData?.totalActive }}</div>
 <div>Total Deaths: {{ stateData?.totalDeaths }}</div>

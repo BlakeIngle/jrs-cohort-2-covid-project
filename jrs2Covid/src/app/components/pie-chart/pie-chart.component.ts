@@ -36,13 +36,11 @@ export class PieChartComponent implements OnInit {
   ngAfterViewInit() {
     this.createSvg();
     this.drawChart();
-    console.log(this.canvas)
   }
 
   ngOnChanges() {
     // this.createSvg();
     this.drawChart();
-    console.log(this.region)
   }
 
   createSvg() {
@@ -63,7 +61,7 @@ export class PieChartComponent implements OnInit {
 
   drawChart() {
 
-    if (!this.region) {
+    if (!this.region || !this.svg) {
       return;
     }
 

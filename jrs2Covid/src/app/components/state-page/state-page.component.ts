@@ -47,20 +47,25 @@ export class StatePageComponent implements OnInit {
 
     this.worldService.getNumbersByState(this.state)
       .subscribe((data: any) => {
-        this.stateData = this.worldService.convertData(data)[0];
 
-        this.vaccineService.getVaccinesByState(this.state, 100)
-          .subscribe((data: any) => {
-            let vaxData = this.vaccineService.convertData(data)[0];
-            this.stateData.timeline.vaccinations = vaxData.timeline.vaccinations;
-            this.regionDataService.cleanUp(this.stateData)
+        setTimeout(() => {
+          //prevent spinner icon pop-in on page load.
 
-            this.nytService.getStateData(this.state, 100)
-              .subscribe((data: any) => {
-                let cases = this.nytService.convertData(data)[0].timeline.cases;
-                this.stateData.timeline.cases = cases;
-              });
-          })
+          this.stateData = this.worldService.convertData(data)[0];
+
+          this.vaccineService.getVaccinesByState(this.state, 100)
+            .subscribe((data: any) => {
+              let vaxData = this.vaccineService.convertData(data)[0];
+              this.stateData.timeline.vaccinations = vaxData.timeline.vaccinations;
+              this.regionDataService.cleanUp(this.stateData)
+
+              this.nytService.getStateData(this.state, 100)
+                .subscribe((data: any) => {
+                  let cases = this.nytService.convertData(data)[0].timeline.cases;
+                  this.stateData.timeline.cases = cases;
+                });
+            })
+        }, 1500)
       });
 
     this.johnHopkinsService.getCountyNumbersByState(this.state)
