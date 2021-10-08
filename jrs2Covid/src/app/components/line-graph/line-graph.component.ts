@@ -33,6 +33,7 @@ export class LineGraphComponent implements OnInit {
     this.svg = d3.select(".line-canvas")
       .append("svg")
       .attr("viewBox", [0, 0, this.width, this.height]);
+
     this.svg.append('rect')
       .attr('width', this.width - this.margin * 2)
       .attr('height', this.height - this.margin * 2)
@@ -43,7 +44,8 @@ export class LineGraphComponent implements OnInit {
   }
 
   drawLineGraph() {
-    if (!this.regions || this.regions.length <= 0 || this.regions[0] == null) {
+    if (!this.regions || this.regions.length <= 0
+      || this.regions[0] == null) {
       return;
     }
 
@@ -64,6 +66,7 @@ export class LineGraphComponent implements OnInit {
     // make x Scale
     let x = d3.scaleUtc()
       .domain([minDate, maxDate])
+      // .nice() // TODO: make this work
       .range([this.margin, this.width - this.margin])
 
     let y = this.makeYScale();
@@ -84,7 +87,6 @@ export class LineGraphComponent implements OnInit {
     let yAxis = g => g
       .attr("transform", `translate(${this.margin},0)`)
       .call(d3.axisLeft(y))
-      .call(g => g.select(".domain").remove())
       .call(g => g.select(".tick:last-of-type text").clone()
         .attr("x", -90)
         .attr("y", 140)
@@ -127,6 +129,7 @@ export class LineGraphComponent implements OnInit {
 
   monthYearFormat(d) {
     return d3.timeFormat("%b %Y")(d);
+    //%b : 01 -> Jan
   }
 
   dayMonthFormat(d) {

@@ -16,10 +16,9 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.states = [];
 
-    this.nytService.getAllStatesData(40).subscribe(
+    this.nytService.getAllStatesData(60).subscribe(
       data => {
         this.states = this.nytService.convertData(data);
-        console.log(this.states)
       }
     )
   }

@@ -70,7 +70,10 @@ export class JohnsHopkinsService {
     }
 
 
-    let county = counties.find(c => c.subregion.toLowerCase() == data.county.toLowerCase() && data.province.toLowerCase() == c.region.toLowerCase())
+    let county = counties.find(
+      c => c.subregion.toLowerCase() == data.county.toLowerCase()
+        && data.province.toLowerCase() == c.region.toLowerCase()
+    )
 
     let region: RegionData = {
       region: data.county,
@@ -101,7 +104,8 @@ export class JohnsHopkinsService {
   public convertData(data: any | any[]): RegionData[] {
     if (Array.isArray(data)) {
       return data.map(d => { return this.convertOneData(d) })
-        .filter(d => d.region.toLowerCase() != "unassigned" && (d.region.toLowerCase()).search("out of ") == -1)
+        .filter(d => d.region.toLowerCase() != "unassigned"
+          && (d.region.toLowerCase()).search("out of ") == -1)
       // do not include 'unassigned' regions or the 'out of ...' regions
     } else {
       return [this.convertOneData(data)];

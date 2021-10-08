@@ -4,7 +4,6 @@ import { RegionData } from 'src/app/models/regionData.model';
 import { ActivatedRoute } from '@angular/router';
 import { RegionDataService } from 'src/app/services/region-data.service';
 
-
 @Component({
   selector: 'county-page',
   templateUrl: './county-page.component.html',

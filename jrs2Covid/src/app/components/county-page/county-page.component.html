@@ -1,23 +1,24 @@
 <div class="root">
     <h2>{{county?.region | uppercase}} COVID NUMBERS</h2>
-    <div *ngIf="county">
-        <table>
-            <tr>
-                <th class="county">County</th>
-                <th class="state">State</th>
-                <th>Poplulation</th>
-                <th>Total Cases</th>
-                <th>Total Deaths</th>
-            </tr>
-            <tr>
-                <td>{{county.region}}</td>
-                <a routerLink="..">{{county.parentRegion}}</a>
-                <td>{{county.population}}</td>
-                <td>{{county.totalCases}}</td>
-                <td>{{county.totalDeaths}}</td>
-            </tr>
-        </table>
-    </div>
+
+    <table *ngIf="county">
+        <tr>
+            <th class="county">County</th>
+            <th class="state">State</th>
+            <th>Poplulation</th>
+            <th>Total Cases</th>
+            <th>Total Deaths</th>
+        </tr>
+        <tr>
+            <td>{{county.region}}</td>
+            <a routerLink="..">{{county.parentRegion}}</a>
+            <td>{{county.population}}</td>
+            <td>{{county.totalCases}}</td>
+            <td>{{county.totalDeaths}}</td>
+        </tr>
+    </table>
+
     <app-line-graph [regions]="[county]"></app-line-graph>
+
     <pie-chart-parent [region]="county"></pie-chart-parent>
 </div>

@@ -24,6 +24,7 @@ import { JohnsHopkinsService } from 'src/app/services/johns-hopkins.service';
   styleUrls: ['./choropleth.component.css']
 })
 export class ChoroplethComponent implements OnInit {
+
   svg: any;
   margin = 80;
   width = 600;
@@ -36,12 +37,12 @@ export class ChoroplethComponent implements OnInit {
   countiesMap: Map<unknown, unknown>;
 
   fillModes = {
-    1: 'Total Cases', // linear
-    2: 'Total Deaths', // linear
-    3: 'Total Vaccinations', // linear
-    4: 'Cases Per Population', // sqrt
-    5: 'Deaths Per Population', // sqrt
-    6: 'Vaccinations Per Population', // sqrt
+    1: 'Total Cases', // sqrt
+    2: 'Total Deaths', // sqrt
+    3: 'Total Vaccinations', // sqrt
+    4: 'Cases Per Population', // linear
+    5: 'Deaths Per Population', // linear
+    6: 'Vaccinations Per Population', // linear
   }
   fillMode: number = 1;
   colorScale;
@@ -52,7 +53,6 @@ export class ChoroplethComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    let populationData = countiesPopulation;
     this.us = usTopojson;
 
     this.jHopService.getUSACountyNumbers()
@@ -66,8 +66,7 @@ export class ChoroplethComponent implements OnInit {
         this.createSvg();
         this.recolor(); // necessary setup
         this.drawMap();
-      })
-
+      });
 
   }
 
@@ -136,7 +135,6 @@ export class ChoroplethComponent implements OnInit {
       .attr("stroke-linejoin", "round")
       .attr("d", path)
 
-
     // draw country border
     this.svg.append("path")
       .data(feature(this.us, this.us.objects.nation).features)
@@ -144,7 +142,6 @@ export class ChoroplethComponent implements OnInit {
       .attr('stroke', '#555')
       .attr('fill', 'none')
       .attr("d", path)
-
   }
 
   // has to be arrow function to use 'this' keyword correctly

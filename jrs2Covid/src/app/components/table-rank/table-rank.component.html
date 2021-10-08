@@ -4,24 +4,27 @@
     <table class="table">
 
         <tr class="table-row">
-            <th *ngFor="let header of tableHeaders" (click)="changeSortingMethod(header.value)">
+            <th *ngFor="let header of tableHeaders"
+                (click)="changeSortingMethod(header.value)">
                 {{header.label}}
                 <fa-icon class="icon"
-                    [icon]="sortingColumn != header.value ? faSort : (sortingOrder == 1 ? faSortUp : faSortDown)">
+                         [icon]="sortingColumn != header.value ? faSort : (sortingOrder == 1 ? faSortUp : faSortDown)">
                 </fa-icon>
             </th>
         </tr>
     </table>
     <div class="table-scroll">
 
-        <table *ngIf="data ; else spinner">
-            <tr class="table-row" *ngFor="let region of data">
+        <table *ngIf="data; else spinner">
+            <tr class="table-row"
+                *ngFor="let region of data">
                 <ng-template #regionSpan>
                     <!-- ng template is just a definition. does not render unless told to -->
                     <span><a [routerLink]="region.region">{{region.region}}</a></span>
                 </ng-template>
 
-                <td *ngFor="let col of tableHeaders" class="{{col.value}}">
+                <td *ngFor="let col of tableHeaders"
+                    class="{{col.value}}">
                     <span *ngIf="col.value != 'region'; else regionSpan">{{region[col.value]}}</span>
                 </td>
             </tr>
@@ -35,7 +38,8 @@
 <ng-template #spinner>
     <table>
         <tr>
-            <td class="spinner" colspan="100%">
+            <td class="spinner"
+                colspan="100%">
                 <spinner></spinner>
             </td>
         </tr>

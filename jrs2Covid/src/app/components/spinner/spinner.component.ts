@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-
-
 @Component({
   selector: 'spinner',
   templateUrl: './spinner.component.html',

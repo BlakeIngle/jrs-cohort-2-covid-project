@@ -8,8 +8,6 @@ import countiesPopulation from '../../assets/counties_population.json';
 })
 export class WorldometersService {
 
-
-
   constructor(private http: HttpClient) { }
 
   getSCVaccines() {

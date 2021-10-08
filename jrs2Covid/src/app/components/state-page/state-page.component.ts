@@ -8,13 +8,13 @@ import { VaccineService } from 'src/app/services/vaccine.service';
 import { RegionDataService } from 'src/app/services/region-data.service';
 import { NytService } from 'src/app/services/nyt.service';
 
-
 @Component({
   selector: 'app-state-page',
   templateUrl: './state-page.component.html',
   styleUrls: ['./state-page.component.css']
 })
 export class StatePageComponent implements OnInit {
+
   @Input() subregions: [];
 
   state: string;
@@ -24,7 +24,6 @@ export class StatePageComponent implements OnInit {
   vaxData;
   vaxDates;
   dailyVax;
-  us_state_fips;
   region;
   counties: RegionData[];
   stateQuery: any;
@@ -39,6 +38,7 @@ export class StatePageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.state = this.route.snapshot.paramMap.get('state');
 
     this.countiesNames = countiesPopulation.filter(c =>
@@ -67,16 +67,11 @@ export class StatePageComponent implements OnInit {
       .subscribe((data: any) => {
         this.counties = this.johnHopkinsService.convertData(data);
         this.regionDataService.cleanUp(this.counties);
-      })
-
-
+      });
   }
 
   onCountyClicked() {
     this.router.navigate([this.state, this.selectedCounty.toLowerCase()]);
   }
 
-
-
 }
-

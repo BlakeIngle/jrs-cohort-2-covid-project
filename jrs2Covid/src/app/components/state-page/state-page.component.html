@@ -16,22 +16,22 @@
   Vaccinations Administered Today: {{ stateData?.todayVaccinations }}
 </div>
 
-
 <div>
   Counties:
   <br>
   <select [(ngModel)]="selectedCounty">
-    <option *ngFor="let subregion of countiesNames" value="{{subregion}}">
+    <option *ngFor="let subregion of countiesNames"
+            value="{{subregion}}">
       {{subregion}}
     </option>
   </select>
   <br>
-  <button type="button" (click)="onCountyClicked()">Go To County Page</button>
+  <button type="button"
+          (click)="onCountyClicked()">Go To County Page</button>
 
 </div>
 
 <app-table-rank [data]="counties"></app-table-rank>
-
 
 <pie-chart-parent [region]="stateData"></pie-chart-parent>
 <!-- <app-line-graph [regions]="counties"></app-line-graph> -->
