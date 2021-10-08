@@ -13,7 +13,7 @@ Covid APP:
 
 - map display
     - show number of cases in each county of USA compared to each other
-        - dispaly options:
+        - display options:
             - total cases/deaths
             - cases/deaths per population
             - increase in total cases/deaths over last day/week
@@ -50,4 +50,4 @@ Covid APP:
     - link to JRS code school
     - display dev credits to:
         - instructor: blake
-        - students: will and raphael
+        - students: will and rafael
