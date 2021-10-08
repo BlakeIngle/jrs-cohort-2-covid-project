@@ -30,16 +30,8 @@ export class TableRankComponent implements OnInit {
       value: "totalCases"
     },
     {
-      label: "Active Cases",
-      value: "totalActive"
-    },
-    {
       label: "Deaths",
       value: "totalDeaths"
-    },
-    {
-      label: "Recovered",
-      value: "totalRecovered"
     },
     {
       label: "Population",

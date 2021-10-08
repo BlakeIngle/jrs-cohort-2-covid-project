@@ -1,5 +1,5 @@
 table {
-  border: solid black 1px;
+  border: solid rgb(111, 145, 141) 1px;
   /* table-layout: fixed; */
 
   width: 100%;
@@ -16,10 +16,9 @@ th {
   height: 40px;
   width: 200px;
   background-color: rgb(138, 170, 167);
-  border: solid white 1px;
+  border: solid rgb(111, 145, 141) 1px;
   text-align: center;
   cursor: pointer;
-  border-bottom: solid black 1px;
 
   /* padding: 5px; */
   /* margin: 5px; */
@@ -29,16 +28,17 @@ th:hover {
   color: rgb(92, 92, 252);
 }
 
+th,
+td {
+  width: 25%;
+}
+
 tr:nth-child(odd) {
   background-color: rgb(253, 252, 252);
 }
 
 tr {
-  /* border: solid white 1px;
-  width: 200px;
-  padding: 15px;
-  margin: 15px; */
-  border-bottom: solid black 1px;
+  height: 1.75em;
 }
 
 .icon {
@@ -49,7 +49,7 @@ a {
   text-decoration: none;
 }
 td {
-  border: solid white 1px;
+  border-right: solid rgb(111, 145, 141) 1px;
   text-align: center;
 }
 .region:hover {
@@ -61,3 +61,12 @@ td {
   padding: 15px;
   margin: 15px;
 } */
+
+td.spinner {
+  padding: 2.5em;
+}
+
+.table-scroll {
+  height: calc(1.75em * 15);
+  overflow: auto;
+}

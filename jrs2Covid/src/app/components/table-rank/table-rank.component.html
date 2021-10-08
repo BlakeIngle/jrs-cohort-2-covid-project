@@ -11,17 +11,33 @@
                 </fa-icon>
             </th>
         </tr>
-        <tr class="table-row" *ngFor="let region of data">
-            <ng-template #regionSpan>
-                <!-- ng template is just a definition. does not render unless told to -->
-                <span><a [routerLink]="region.region">{{region.region}}</a></span>
-            </ng-template>
-
-            <td *ngFor="let col of tableHeaders" class="{{col.value}}">
-                <span *ngIf="col.value != 'region'; else regionSpan">{{region[col.value]}}</span>
-            </td>
-        </tr>
-
     </table>
+    <div class="table-scroll">
+
+        <table *ngIf="data ; else spinner">
+            <tr class="table-row" *ngFor="let region of data">
+                <ng-template #regionSpan>
+                    <!-- ng template is just a definition. does not render unless told to -->
+                    <span><a [routerLink]="region.region">{{region.region}}</a></span>
+                </ng-template>
+
+                <td *ngFor="let col of tableHeaders" class="{{col.value}}">
+                    <span *ngIf="col.value != 'region'; else regionSpan">{{region[col.value]}}</span>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
 
 </div>
+
+<ng-template #spinner>
+    <table>
+        <tr>
+            <td class="spinner" colspan="100%">
+                <spinner></spinner>
+            </td>
+        </tr>
+    </table>
+</ng-template>
