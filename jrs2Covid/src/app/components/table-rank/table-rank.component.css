@@ -1,64 +1,61 @@
-.table {
+table {
   border: solid black 1px;
-  width: 100%;
-  border-collapse: collapse;
+  /* table-layout: fixed; */
 
-  /* margin-left: 10px;
-  margin-right: 10px; */
-  background-color: rgb(104, 101, 101);
-  color: white;
+  width: 100%;
+  /* height: */
+  border-collapse: collapse;
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+  background-color: rgb(219, 233, 231);
+  color: rgb(19, 19, 134);
 }
 
-.header-columns {
+th {
   height: 40px;
   width: 200px;
-  border: solid black 1px;
+  background-color: rgb(138, 170, 167);
+  border: solid white 1px;
   text-align: center;
+  cursor: pointer;
+  border-bottom: solid black 1px;
+
+  /* padding: 5px; */
+  /* margin: 5px; */
 }
-.header-columns:hover {
-  background-color: rgb(190, 186, 186);
+th:hover {
+  background-color: rgb(114, 148, 145);
+  color: rgb(92, 92, 252);
 }
 
-.table-row {
-  border: solid black 1px;
-  cursor: pointer;
+tr:nth-child(odd) {
+  background-color: rgb(253, 252, 252);
+}
+
+tr {
+  /* border: solid white 1px;
   width: 200px;
   padding: 15px;
-  margin: 15px;
+  margin: 15px; */
+  border-bottom: solid black 1px;
 }
+
 .icon {
   color: black;
 }
 
-.region-column {
-  border: solid black 1px;
+a {
+  text-decoration: none;
+}
+td {
+  border: solid white 1px;
   text-align: center;
 }
-.totalCases-column {
-  border: solid black 1px;
-  text-align: center;
+.region:hover {
+  cursor: pointer;
+  color: rgb(92, 92, 252);
 }
-.totalDeaths-column {
-  border: solid black 1px;
-  text-align: center;
-}
-.totalRecovered {
-  border: solid black 1px;
-  text-align: center;
-}
-.population-column {
-  border: solid black 1px;
-  text-align: center;
-}
-.totalActive-column {
-  border: solid black 1px;
-  text-align: center;
-}
-.totalRecovered-column {
-  border: solid black 1px;
-  text-align: center;
-}
-
 /* .table-column {
   width: 400px;
   padding: 15px;
