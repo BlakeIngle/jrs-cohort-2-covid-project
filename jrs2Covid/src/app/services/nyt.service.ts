@@ -17,7 +17,11 @@ export class NytService {
     return this.http.get(`https://disease.sh/v3/covid-19/nyt/states?lastdays=${days ? days : 30}`);
   }
 
-  convertData(data: any[]): RegionData[] {
+  getStateData(state: string, days?: number) {
+    return this.http.get(`https://disease.sh/v3/covid-19/nyt/states/${state}?lastdays=${days ? days : 30}`);
+  }
+
+  public convertData(data: any[]): RegionData[] {
     let regions: RegionData[] = [];
     for (let first of data) {
       // 'first' being the first obj with this state name

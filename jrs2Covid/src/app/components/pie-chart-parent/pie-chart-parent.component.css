@@ -1,0 +1,24 @@
+div {
+  display: flex;
+  color: black;
+}
+
+.root {
+  flex-direction: row;
+  gap: 1em;
+  padding: 1em;
+  text-align: center;
+}
+
+.col {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  padding: 0;
+}
+
+.col > * {
+  margin: 0;
+  width: 100%;
+}
