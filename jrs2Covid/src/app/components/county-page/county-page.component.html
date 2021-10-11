@@ -5,7 +5,7 @@
         <tr>
             <th class="county">County</th>
             <th class="state">State</th>
-            <th>Poplulation</th>
+            <th>Population</th>
             <th>Total Cases</th>
             <th>Total Deaths</th>
         </tr>
@@ -18,7 +18,7 @@
         </tr>
     </table>
 
-    <app-line-graph [regions]="[county]"></app-line-graph>
-
+    <app-line-graph [regions]="countyAsArray"></app-line-graph>
     <pie-chart-parent [region]="county"></pie-chart-parent>
+
 </div>

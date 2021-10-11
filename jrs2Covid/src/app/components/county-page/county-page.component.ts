@@ -4,6 +4,7 @@ import { RegionData } from 'src/app/models/regionData.model';
 import { ActivatedRoute } from '@angular/router';
 import { RegionDataService } from 'src/app/services/region-data.service';
 
+
 @Component({
   selector: 'county-page',
   templateUrl: './county-page.component.html',
@@ -12,7 +13,9 @@ import { RegionDataService } from 'src/app/services/region-data.service';
 export class CountyPageComponent implements OnInit {
 
   county: RegionData;
-  data;
+  countyAsArray: RegionData[];
+  countiesNames: string;
+  state: string;
   svg;
 
   margin = 100;
@@ -34,6 +37,7 @@ export class CountyPageComponent implements OnInit {
         let countyData = (data as any[]).find(c => c.county == countyName)
         this.county = this.johnsHopkinsServices.convertData(countyData)[0];
         this.regionDataService.cleanUp(this.county);
+        this.countyAsArray = [this.county];
       });
   }
 

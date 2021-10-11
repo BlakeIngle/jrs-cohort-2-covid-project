@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { RegionData } from 'src/app/models/regionData.model';
 
@@ -11,6 +11,8 @@ export class LineGraphComponent implements OnInit {
 
   @Input() regions: RegionData[];
 
+  @ViewChild("canvas", { static: false }) canvas: ElementRef;
+
   svg;
   margin = 100;
   width = 750;
@@ -20,19 +22,34 @@ export class LineGraphComponent implements OnInit {
 
   constructor() { }
 
+
   ngOnInit(): void {
+  }
+
+  ngOnChanges() {
     this.createSvg();
     this.drawLineGraph();
   }
 
-  ngOnChanges() {
-    this.drawLineGraph();
-  }
-
   createSvg() {
-    this.svg = d3.select(".line-canvas")
+    if (!this.canvas) {
+      return
+    }
+
+    this.svg = d3.select(this.canvas.nativeElement)
       .append("svg")
       .attr("viewBox", [0, 0, this.width, this.height]);
+  }
+
+  drawLineGraph() {
+    if (!this.regions || this.regions.length <= 0
+      || this.regions[0] == null) {
+      return;
+    }
+
+    if (!this.svg) {
+      return
+    }
 
     this.svg.append('rect')
       .attr('width', this.width - this.margin * 2)
@@ -41,13 +58,6 @@ export class LineGraphComponent implements OnInit {
       .attr('y', this.margin)
       .attr('class', 'graph-content')
       .attr('fill', this.yAxisValue == 'totalCases' ? '#dbf3fa' : '#ffeded')
-  }
-
-  drawLineGraph() {
-    if (!this.regions || this.regions.length <= 0
-      || this.regions[0] == null) {
-      return;
-    }
 
     let line = d3.line()
       .defined(d => !isNaN(d.value))

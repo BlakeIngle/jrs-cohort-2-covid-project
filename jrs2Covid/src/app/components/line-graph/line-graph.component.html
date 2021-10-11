@@ -1,17 +1,15 @@
-<input type="radio"
-       [(ngModel)]="yAxisValue"
-       (ngModelChange)="changeYAxis()"
-       name="yAxisValue"
-       value="totalCases"
-       id="casesRadio">
-<label for="casesRadio">Cases</label>
-<br>
-<input type="radio"
-       [(ngModel)]="yAxisValue"
-       (ngModelChange)="changeYAxis()"
-       name="yAxisValue"
-       value="totalDeaths"
-       id="casesDeaths">
-<label for="casesDeaths">Deaths</label>
+<div class="line-canvas" #canvas>
+    <div *ngIf="regions; else spinner">
+        <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="changeYAxis()" name="yAxisValue" value="totalCases" id="casesRadio">
+        <label for="casesRadio">Cases</label>
+        <br>
+        <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="changeYAxis()" name="yAxisValue" value="totalDeaths" id="casesDeaths">
+        <label for="casesDeaths">Deaths</label>
+    </div>
+</div>
 
-<div class="line-canvas"></div>
+<ng-template #spinner>
+    <div class="spinner">
+        <spinner></spinner>
+    </div>
+</ng-template>
