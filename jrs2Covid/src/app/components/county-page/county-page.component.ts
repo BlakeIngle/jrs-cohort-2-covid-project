@@ -12,13 +12,15 @@ import { RegionDataService } from 'src/app/services/region-data.service';
 })
 export class CountyPageComponent implements OnInit {
 
+  stateName;
+  countyName;
   county: RegionData;
   countyAsArray: RegionData[];
   countiesNames: string;
   state: string;
   svg;
 
-  margin = 100;
+  // margin = 50;
   width = 750;
   height = 500;
   radius = 250;
@@ -28,18 +30,19 @@ export class CountyPageComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.stateName = this.route.snapshot.paramMap.get("state")
+    this.countyName = this.route.snapshot.paramMap.get("county")
+    this.dayChange(30);
+  }
 
-    let stateName = this.route.snapshot.paramMap.get("state")
-    let countyName = this.route.snapshot.paramMap.get("county")
-
-    this.johnsHopkinsServices.getCountyNumbersByState(stateName, 30)
+  dayChange(numberOfDays: number) {
+    this.johnsHopkinsServices.getCountyNumbersByState(this.stateName, numberOfDays)
       .subscribe(data => {
-        let countyData = (data as any[]).find(c => c.county == countyName)
+        let countyData = (data as any[]).find(c => c.county == this.countyName)
         this.county = this.johnsHopkinsServices.convertData(countyData)[0];
         this.regionDataService.cleanUp(this.county);
         this.countyAsArray = [this.county];
       });
   }
-
 
 }

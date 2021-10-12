@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { RegionData } from 'src/app/models/regionData.model';
 
@@ -11,13 +11,31 @@ export class LineGraphComponent implements OnInit {
 
   @Input() regions: RegionData[];
 
+  @Output() timePeriodChange = new EventEmitter<number>();
+
   @ViewChild("canvas", { static: false }) canvas: ElementRef;
 
+  days = [
+    {label: "One Week", value: 7},
+    {label: "One Month", value: 31},
+    {label: "Three Months", value: 93},
+    {label: "Six Months", value: 183},
+    {label: "One Year", value: 365},
+  ];
+
+  selectedDay: number = 7;
+
   svg;
-  margin = 100;
+  margin = {
+    top: 30,
+    right: 30,
+    left: 75,
+    bottom: 30
+  };
   width = 750;
-  height = 500;
+  height = 450;
   radius = 250;
+
   yAxisValue: 'totalCases' | 'totalDeaths' = "totalCases"
 
   constructor() { }
@@ -27,8 +45,7 @@ export class LineGraphComponent implements OnInit {
   }
 
   ngOnChanges() {
-    this.createSvg();
-    this.drawLineGraph();
+    this.resetGraph();
   }
 
   createSvg() {
@@ -52,10 +69,10 @@ export class LineGraphComponent implements OnInit {
     }
 
     this.svg.append('rect')
-      .attr('width', this.width - this.margin * 2)
-      .attr('height', this.height - this.margin * 2)
-      .attr('x', this.margin)
-      .attr('y', this.margin)
+      .attr('width', this.width - (this.margin.left + this.margin.right))
+      .attr('height', this.height - (this.margin.top + this.margin.bottom))
+      .attr('x', this.margin.left)
+      .attr('y', this.margin.top)
       .attr('class', 'graph-content')
       .attr('fill', this.yAxisValue == 'totalCases' ? '#dbf3fa' : '#ffeded')
 
@@ -77,14 +94,14 @@ export class LineGraphComponent implements OnInit {
     let x = d3.scaleUtc()
       .domain([minDate, maxDate])
       // .nice() // TODO: make this work
-      .range([this.margin, this.width - this.margin])
+      .range([this.margin.left, this.width - this.margin.right])
 
     let y = this.makeYScale();
 
     let tickLabels = [minDate, maxDate]
 
     let xAxis = g => g
-      .attr("transform", `translate(0,${this.height - this.margin})`)
+      .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
       .call(d3.axisBottom(x)
         // .ticks(10)
         .tickFormat(xDomain.length > 100 ?
@@ -95,13 +112,15 @@ export class LineGraphComponent implements OnInit {
       )
 
     let yAxis = g => g
-      .attr("transform", `translate(${this.margin},0)`)
+      .attr("transform", `translate(${this.margin.left},0)`)
       .call(d3.axisLeft(y))
       .call(g => g.select(".tick:last-of-type text").clone()
-        .attr("x", -90)
-        .attr("y", 140)
-        .attr("text-anchor", "start")
+        .attr("text-anchor", "middle")
+        .attr("y", "0")
+        .attr("x", "0")
         .attr("font-weight", "bold")
+        .attr("font-size", "16")
+        .attr("transform", "translate(" + (8 - this.margin.left) + "," + ((this.height - (this.margin.top + this.margin.bottom)) / 2) + ")rotate(-90)")
         .text(this.yAxisValue == 'totalCases' ? 'Cases' : 'Deaths')
       );
 
@@ -134,7 +153,6 @@ export class LineGraphComponent implements OnInit {
         .attr("d", d => line(d.timeline.deaths)
         );
     }
-
   }
 
   monthYearFormat(d) {
@@ -148,25 +166,39 @@ export class LineGraphComponent implements OnInit {
 
   makeYScale() {
     let domain;
+    let min;
+    let max;
     if (this.yAxisValue == 'totalCases') {
-      let maxCases = d3.max(this.regions, r => r.totalCases)
-      let minCases = d3.min(this.regions, r => r.timeline.cases[0].value)
-      domain = [minCases, maxCases]
+      max = d3.max(this.regions, r => r.totalCases)
+      min = d3.min(this.regions, r => r.timeline.cases[0].value)
     } else {
-      let maxDeaths = d3.max(this.regions, r => r.totalDeaths)
-      let minDeaths = d3.min(this.regions, r => r.timeline.deaths[0].value)
-      domain = [minDeaths, maxDeaths]
+      max = d3.max(this.regions, r => r.totalDeaths)
+      min = d3.min(this.regions, r => r.timeline.deaths[0].value)
     }
+    
+    if(max - min < 9) {
+        min -= 1;
+        max += 7;
+    }
+
+    domain = [min, max]
 
     return d3.scaleLinear()
       .domain(domain)
       .nice()
-      .range([this.height - this.margin, this.margin])
+      .range([this.height - this.margin.bottom, this.margin.top])
   }
 
-  changeYAxis() {
-    this.svg.remove();
-    this.createSvg();
+  getDay() {
+    this.timePeriodChange.emit(this.selectedDay)
+  }
+
+  resetGraph() {
+    if (!this.svg) {
+      this.createSvg();
+    } else {
+      this.svg.selectAll("*").remove();
+    }
     this.drawLineGraph();
   }
 

@@ -1,9 +1,13 @@
+<br>
 <div class="line-canvas" #canvas>
+    <select [(ngModel)]="selectedDay" (ngModelChange)="getDay()">
+        <option *ngFor="let timePeriod of days" [value]="timePeriod.value">{{timePeriod.label}}</option>
+    </select>
     <div *ngIf="regions; else spinner">
-        <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="changeYAxis()" name="yAxisValue" value="totalCases" id="casesRadio">
+        <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="resetGraph()" name="yAxisValue" value="totalCases" id="casesRadio">
         <label for="casesRadio">Cases</label>
         <br>
-        <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="changeYAxis()" name="yAxisValue" value="totalDeaths" id="casesDeaths">
+        <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="resetGraph()" name="yAxisValue" value="totalDeaths" id="casesDeaths">
         <label for="casesDeaths">Deaths</label>
     </div>
 </div>
