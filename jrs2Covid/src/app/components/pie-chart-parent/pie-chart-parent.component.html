@@ -13,19 +13,25 @@
     </div>
 
     <!-- <div class="col" *ngIf="region.totalVaccinations">
-        <pie-chart [region]="region" [partial]="region?.totalVaccinations" [total]="region?.population"
-            [color]="'#33ff33'">
-        </pie-chart>
-        <p>Total Vaccinations per Population</p>
-    </div> -->
+            <pie-chart [region]="region" [partial]="region?.totalVaccinations" [total]="region?.population"
+                [color]="'#33ff33'">
+            </pie-chart>
+            <p>Total Vaccinations per Population</p>
+        </div> -->
 
     <div class="col">
         <pie-chart [region]="region" [partial]="region?.totalDeaths" [total]="region?.totalCases" [color]="'#ffff33'">
         </pie-chart>
-        <p>Total Deaths per Total Cases</p>
+        <p>Deaths per Total Cases</p>
     </div>
 </div>
+<div class="spinner">
+    <ng-template #spinner>
+        <spinner class="spinner"></spinner>
+    </ng-template>
+</div>
 
-<ng-template #spinner>
-    <spinner></spinner>
-</ng-template>
+
+
+<!-- <div class="overlay">
+</div> -->

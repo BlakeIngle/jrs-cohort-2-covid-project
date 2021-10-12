@@ -10,6 +10,8 @@ export class PieChartParentComponent implements OnInit {
 
   @Input() region: RegionData;
 
+
+
   constructor() { }
 
   ngOnInit(): void {
