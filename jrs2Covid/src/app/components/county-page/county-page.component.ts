@@ -36,6 +36,8 @@ export class CountyPageComponent implements OnInit {
   }
 
   dayChange(numberOfDays: number) {
+    this.county = null;
+    this.countyAsArray = null;
     this.johnsHopkinsServices.getCountyNumbersByState(this.stateName, numberOfDays)
       .subscribe(data => {
         let countyData = (data as any[]).find(c => c.county == this.countyName)
