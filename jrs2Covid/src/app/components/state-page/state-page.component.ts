@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorldometersService } from '../../services/worldometers.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import countiesPopulation from '../../../assets/counties_population.json';
 import { JohnsHopkinsService } from '../../services/johns-hopkins.service';
 import { RegionData } from '../../models/regionData.model.js';
@@ -21,6 +21,7 @@ export class StatePageComponent implements OnInit {
   countiesNames: string[];
   selectedCounty: string;
   stateData: RegionData;
+
   vaxData;
   vaxDates;
   dailyVax;
@@ -35,10 +36,24 @@ export class StatePageComponent implements OnInit {
     private regionDataService: RegionDataService,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+  ) {
+    router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        this.getStateAndCountyData();
+      }
+    });
+  }
 
   ngOnInit(): void {
 
+    this.getStateAndCountyData();
+  }
+
+  onCountyClicked() {
+    this.router.navigate([this.state, this.selectedCounty.toLowerCase()]);
+  }
+
+  getStateAndCountyData() {
     this.state = this.route.snapshot.paramMap.get('state');
 
     this.countiesNames = countiesPopulation.filter(c =>
@@ -74,9 +89,4 @@ export class StatePageComponent implements OnInit {
         this.regionDataService.cleanUp(this.counties);
       });
   }
-
-  onCountyClicked() {
-    this.router.navigate([this.state, this.selectedCounty.toLowerCase()]);
-  }
-
 }

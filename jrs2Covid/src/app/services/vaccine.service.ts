@@ -10,6 +10,9 @@ export class VaccineService {
   constructor(private http: HttpClient) { }
 
   public getVaccinesByState(state: string, days?: number) {
+    if (state.toLowerCase() == "new york") {
+      state += " state";
+    }
     return this.http.get(`https://disease.sh/v3/covid-19/vaccine/coverage/states/${state}?lastdays=${days ? days : 30}&fullData=false`)
   }
 

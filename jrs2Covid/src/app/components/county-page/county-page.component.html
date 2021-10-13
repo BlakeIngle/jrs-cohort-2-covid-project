@@ -10,8 +10,8 @@
             <th>Total Deaths</th>
         </tr>
         <tr>
-            <td>{{county.region}}</td>
-            <a routerLink="..">{{county.parentRegion}}</a>
+            <td>{{county.region | uppercase}}</td>
+            <a routerLink="..">{{county.parentRegion | uppercase}}</a>
             <td>{{county.population}}</td>
             <td>{{county.totalCases}}</td>
             <td>{{county.totalDeaths}}</td>

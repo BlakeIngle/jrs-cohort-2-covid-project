@@ -21,6 +21,7 @@ div {
   align-items: center;
   width: 150px;
   padding: 5px;
+  /* border: solid black 1px; */
 }
 
 .col > * {
@@ -32,7 +33,7 @@ div {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5em;
+  padding: 6em;
 }
 
 p {

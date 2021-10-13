@@ -28,8 +28,19 @@
   <button type="button" (click)="onCountyClicked()">Go To County Page</button>
 
 </div>
+
+
+
 <pie-chart-parent [region]="stateData"></pie-chart-parent>
 
 <app-table-rank [data]="counties"></app-table-rank>
 
 <!-- <app-line-graph [regions]="counties"></app-line-graph> -->
+<div>
+  <p *ngIf="stateData.region == 'South Carolina'">
+
+    For More Information In South Carolina, Including COVID-19 Testing And Vaccination Locations, Please Visit:
+    <a href="https://scdhec.gov/"> DHEC</a>
+
+  </p>
+</div>
