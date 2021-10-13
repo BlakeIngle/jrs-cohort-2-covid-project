@@ -159,7 +159,7 @@ export class ChoroplethComponent implements OnInit {
       case 2:
         return this.getActualColor(dataActual?.totalDeaths);
       case 5:
-        return this.getActualColor(dataActual.totalDeaths / dataActual.population);
+        return this.getActualColor(dataActual?.totalDeaths / dataActual?.population);
       default:
         return "#FFF";
     }
@@ -177,13 +177,13 @@ export class ChoroplethComponent implements OnInit {
     var min = 0;
     var max = 0;
 
-
     switch (this.fillMode) {
       case 1:
         min = d3.min(this.data, d => d.totalCases)
         max = d3.max(this.data, d => d.totalCases)
         break;
       case 4:
+        // cases / population
         min = d3.min(this.data, d => d.totalCases / d.population)
         max = d3.max(this.data, d => !d.population ? 0 : (d.totalCases / d.population));
         break;
@@ -192,8 +192,9 @@ export class ChoroplethComponent implements OnInit {
         max = d3.max(this.data, d => d.totalDeaths)
         break;
       case 5:
+        // deaths / population
         min = d3.min(this.data, d => d.totalDeaths / d.population)
-        max = d3.max(this.data, d => d.totalDeaths / d.population)
+        max = d3.max(this.data, d => !d.population ? 0 : (d.totalDeaths / d.population));
         break;
       case 3:
         min = d3.min(this.data, d => d.totalCases)
