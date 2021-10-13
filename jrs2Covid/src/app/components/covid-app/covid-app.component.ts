@@ -10,14 +10,10 @@ import { RegionData } from 'src/app/models/regionData.model';
 })
 export class CovidAppComponent implements OnInit {
 
-  stateQuery: string; // the state name that you type in the input box
   states: RegionData[];
-  boxChecked
-  radioValue
 
   breadcrumb: any[];
-  stateName: any;
-  countyName: any;
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private worldService: WorldometersService) {
@@ -30,9 +26,6 @@ export class CovidAppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.stateQuery = "";
-    this.boxChecked = true
-    this.radioValue = "";
     this.convertBreadcrumb();
 
     this.worldService.getStateNumbers()
@@ -41,15 +34,7 @@ export class CovidAppComponent implements OnInit {
       })
   }
 
-  onClickedSearch() {
-    this.router.navigate([this.stateQuery])
-  }
-
   convertBreadcrumb() {
-
-    // this.stateName = this.route.firstChild.snapshot.get("state")
-    // this.countyName = this.route.snapshot.firstChild.get("county")
-    console.log(this.route, this.route.firstChild)
 
     this.breadcrumb = [
       { label: "USA", value: "" },
