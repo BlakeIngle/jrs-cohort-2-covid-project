@@ -20,12 +20,14 @@
   Counties:
   <br>
   <select [(ngModel)]="selectedCounty">
-    <option *ngFor="let subregion of countiesNames" value="{{subregion}}">
+    <option *ngFor="let subregion of countiesNames"
+            value="{{subregion}}">
       {{subregion}}
     </option>
   </select>
   <br>
-  <button type="button" (click)="onCountyClicked()">Go To County Page</button>
+  <button type="button"
+          (click)="onCountyClicked()">Go To County Page</button>
 
 </div>
 <pie-chart-parent [region]="stateData"></pie-chart-parent>

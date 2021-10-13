@@ -18,7 +18,8 @@
         </tr>
     </table>
 
-    <app-line-graph [regions]="countyAsArray" (timePeriodChange)="dayChange($event)"></app-line-graph>
+    <app-line-graph [regions]="countyAsArray"
+                    (timePeriodChange)="dayChange($event)"></app-line-graph>
     <pie-chart-parent [region]="county"></pie-chart-parent>
 
 </div>

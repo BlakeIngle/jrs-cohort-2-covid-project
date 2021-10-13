@@ -16,11 +16,11 @@ export class LineGraphComponent implements OnInit {
   @ViewChild("canvas", { static: false }) canvas: ElementRef;
 
   days = [
-    {label: "One Week", value: 7},
-    {label: "One Month", value: 31},
-    {label: "Three Months", value: 93},
-    {label: "Six Months", value: 183},
-    {label: "One Year", value: 365},
+    { label: "One Week", value: 7 },
+    { label: "One Month", value: 31 },
+    { label: "Three Months", value: 93 },
+    { label: "Six Months", value: 183 },
+    { label: "One Year", value: 365 },
   ];
 
   selectedDay: number = 7;
@@ -175,10 +175,10 @@ export class LineGraphComponent implements OnInit {
       max = d3.max(this.regions, r => r.totalDeaths)
       min = d3.min(this.regions, r => r.timeline.deaths[0].value)
     }
-    
-    if(max - min < 9) {
-        min -= 1;
-        max += 7;
+
+    if (max - min < 9) {
+      min -= 1;
+      max += 7;
     }
 
     domain = [min, max]
