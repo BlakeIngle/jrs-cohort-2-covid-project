@@ -159,7 +159,7 @@ export class ChoroplethComponent implements OnInit {
       case 2:
         return this.getActualColor(dataActual?.totalDeaths);
       case 5:
-        return this.getActualColor(dataActual.totalDeaths / dataActual.population);
+        return this.getActualColor(dataActual?.totalDeaths / dataActual?.population);
       default:
         return "#FFF";
     }
@@ -177,14 +177,13 @@ export class ChoroplethComponent implements OnInit {
     var min = 0;
     var max = 0;
 
-    let legendColor;
-
     switch (this.fillMode) {
       case 1:
         min = d3.min(this.data, d => d.totalCases)
         max = d3.max(this.data, d => d.totalCases)
         break;
       case 4:
+        // cases / population
         min = d3.min(this.data, d => d.totalCases / d.population)
         max = d3.max(this.data, d => !d.population ? 0 : (d.totalCases / d.population));
         break;
@@ -193,8 +192,9 @@ export class ChoroplethComponent implements OnInit {
         max = d3.max(this.data, d => d.totalDeaths)
         break;
       case 5:
+        // deaths / population
         min = d3.min(this.data, d => d.totalDeaths / d.population)
-        max = d3.max(this.data, d => d.totalDeaths / d.population)
+        max = d3.max(this.data, d => !d.population ? 0 : (d.totalDeaths / d.population));
         break;
       case 3:
         min = d3.min(this.data, d => d.totalCases)
@@ -213,7 +213,6 @@ export class ChoroplethComponent implements OnInit {
         this.colorScale = d3.scaleSqrt()
           .domain([min, max])
           .range([0, 1]);
-        legendColor = d3.scaleSqrt([min, max], d3.interpolateOrRd)
         break;
       case 4:
       case 5:
@@ -221,55 +220,155 @@ export class ChoroplethComponent implements OnInit {
         this.colorScale = d3.scaleLinear()
           .domain([min, max])
           .range([0, 1]);
-        legendColor = d3.scaleLinear([min, max], d3.interpolateOrRd)
         break;
     }
 
-    this.legend(legendColor, { title: "hi" });
+    this.makeLegend([min, max]);
 
     this.svg.selectAll('.county')
       .attr('fill', (d, i) => { return this.fill(d, i) });
   }
 
-  legend(color, title) {
+  makeLegend(domain: number[]) {
 
-    let tickSize = 6;
-    let width = 320;
-    let height = 44 + tickSize;
-    let marginTop = 18;
-    let marginRight = 0;
-    let marginBottom = 16 + tickSize;
-    let marginLeft = 0;
-    let ticks = width / 64;
-    let tickFormat;
-    let tickValues;
+    this.svg.selectAll('.legend')
+      .remove(); // delete all old legend ticks
 
-    let x = d3.scaleLinear()
-      .range([marginLeft, width - marginRight]);
+    let gradientId = "legendGradient";
+    this.makeLegendGradient(gradientId);
 
-    const svg = this.svg.append("svg")
+    let tickHeight = 14;
+    let width = 250;
+    let height = 10;
+    let marginTop = 10;
+    let ticks = 5;
+
+    this.svg.append("rect")
+      .attr("class", "legend")
+      .attr("x", this.width)
+      .attr("y", height + marginTop)
       .attr("width", width)
       .attr("height", height)
-      .attr("viewBox", [0, 0, width, height])
-      .style("overflow", "visible")
-      .style("display", "block")
+      .style("fill", `url(#${gradientId})`);//id of the gradient for fill
 
-    // Linear
-    if (this.fillMode < 4) {
-      // mode 1, 2, or 3 -> linear scale
+    let legendText = "";
 
-      const n = Math.min(color.domain().length, color.range().length);
-
-      x = color.copy().rangeRound(d3.quantize(d3.interpolate(marginLeft, width - marginRight), n));
-
-      this.svg.append("image")
-        .attr("x", marginLeft)
-        .attr("y", marginTop)
-        .attr("width", width - marginLeft - marginRight)
-        .attr("height", height - marginTop - marginBottom)
-        .attr("preserveAspectRatio", "none")
-      // .attr("xlink:href", ramp(color.copy().domain(d3.quantize(d3.interpolate(0, 1), n))).toDataURL());
+    switch (this.fillMode) {
+      case 1:
+        legendText = "Total +Cases"
+        break;
+      case 2:
+        legendText = "Total Deaths"
+        break;
+      case 3:
+        legendText = "Total Vaccinations"
+        break;
+      case 4:
+        legendText = "Population % +Cases"
+        break;
+      case 5:
+        legendText = "Population % Deaths"
+        break;
+      case 6:
+        legendText = "Population % Vaccinations"
+        break;
+      default:
+        legendText = "Legend"
+        break;
     }
+
+    this.svg.append("text")
+      .attr("class", "legend")
+      .attr("y", marginTop + 5)
+      .attr("x", this.width + (width / 2))
+      .attr('text-anchor', 'middle')
+      .text(legendText);
+
+    let x;
+    let dataAtX;
+    // Sqrt Scale
+    if (this.fillMode < 4) {
+      // mode 1, 2, or 3 -> sqrt scale
+      x = d3.scaleSqrt()
+        .domain([ticks, 1])
+        .range([this.width, this.width + width]);
+      dataAtX = d3.scaleSqrt()
+        .domain([1, ticks])
+        .range(domain);
+
+      for (let i = ticks; i > 0; i--) {
+        this.svg.append("line")
+          .attr("class", "legend tick")
+          .style('stroke', 'black')
+          .attr('x1', x(ticks / i))
+          .attr('y1', height + marginTop)
+          .attr('x2', x(ticks / i))
+          .attr('y2', height + tickHeight + marginTop)
+          .attr('stroke-width', 2)
+
+        this.svg.append("text")
+          .attr("class", "legend")
+          .attr("y", 0)
+          .attr("x", 0)
+          .attr('text-anchor', 'end')
+          .attr('transform', `translate(${x(ticks / i)}, ${height + tickHeight + marginTop + 15}), rotate(-45)`)
+          .text(Math.ceil(dataAtX(i)));
+      }
+    } else {
+      // Linear scale
+      x = d3.scaleLinear()
+        .domain([1, ticks])
+        .range([this.width, this.width + width]);
+      dataAtX = d3.scaleLinear()
+        .domain([1, ticks])
+        .range(domain);
+
+      for (let i = 1; i <= ticks; i++) {
+        this.svg.append("line")
+          .attr("class", "legend tick")
+          .style('stroke', 'black')
+          .attr('x1', x(i))
+          .attr('y1', height + marginTop)
+          .attr('x2', x(i))
+          .attr('y2', height + tickHeight + marginTop)
+          .attr('stroke-width', 2)
+
+        this.svg.append("text")
+          .attr("class", "legend")
+          .attr("y", 0)
+          .attr("x", 0)
+          .attr('text-anchor', 'middle')
+          .attr('transform', `translate(${x(i)}, ${height + tickHeight + marginTop + 15})`)
+          .text((dataAtX(i) * 100).toFixed(1) + "%");
+      }
+    }
+
+  }
+
+  makeLegendGradient(id: string) {
+    //make defs and add the linear gradient
+    var lg = this.svg.append("defs")
+      .append("linearGradient")
+      .attr("id", id)//id of the gradient
+      .attr("x1", "0%")
+      .attr("x2", "100%")//since its a horizontal linear gradient 
+      .attr("y1", "0%")
+      .attr("y2", "0%");
+
+    lg.append("stop")
+      .attr("offset", "0%")
+      .style("stop-color", "#fff7ec")//start in orange
+      .style("stop-opacity", 1)
+
+    lg.append("stop")
+      .attr("offset", "50%")
+      .style("stop-color", "#fa8d5d")
+      .style("stop-opacity", 1)
+
+    lg.append("stop")
+      .attr("offset", "100%")
+      .style("stop-color", "#7f0000")//end in red
+      .style("stop-opacity", 1)
 
   }
 

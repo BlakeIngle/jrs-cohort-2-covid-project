@@ -11,8 +11,8 @@
             </th>
         </tr>
     </table>
-    <div class="table-scroll">
 
+    <div class="table-scroll">
         <table *ngIf="data; else spinner">
             <tr class="table-row" *ngFor="let region of data">
                 <ng-template #regionSpan>
@@ -26,12 +26,16 @@
             </tr>
 
         </table>
-
     </div>
 
 </div>
 
 <ng-template #spinner>
+    <!-- 
+        table will match styling of actual table element
+        table is used here because ngIf and ngFor directives 
+        cannot be placed on same element 
+    -->
     <table>
         <tr>
             <td class="spinner" colspan="100%">
