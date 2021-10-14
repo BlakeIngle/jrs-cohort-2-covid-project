@@ -36,6 +36,9 @@ export class LineGraphComponent implements OnInit {
   height = 450;
   radius = 250;
 
+  tooltipWidth = 120;
+  tooltipHeight = 60;
+
   yAxisValue: 'totalCases' | 'totalDeaths' = "totalCases"
 
   constructor() { }
@@ -88,7 +91,7 @@ export class LineGraphComponent implements OnInit {
     let x = d3.scaleUtc()
       .domain([minDate, maxDate])
       // .nice() // TODO: make this work
-      .range([this.margin.left, this.width - this.margin.right])
+      .range([this.margin.left, this.width - (this.margin.right)])
 
     let y = this.makeYScale();
 
@@ -166,8 +169,14 @@ export class LineGraphComponent implements OnInit {
         );
     }
 
+    this.createToolTip(x, y);
+
+  }
+
+  createToolTip(x, y) {
+
     this.svg.append("line")
-      .attr('class', 'mouse line')
+      .attr('class', 'tooltip mouse line')
       .style("stroke", "black")
       .attr("x1", 0)
       .attr("y1", 0)
@@ -175,7 +184,7 @@ export class LineGraphComponent implements OnInit {
       .attr("y2", 0);
 
     this.svg.append("circle")
-      .attr('class', 'mouse circle')
+      .attr('class', 'tooltip mouse circle')
       .attr("r", 7)
       .attr("cx", 0)
       .attr("cy", 0)
@@ -183,12 +192,27 @@ export class LineGraphComponent implements OnInit {
       .attr("fill", "none")
       .attr("stroke", "black")
 
+    this.svg.append("rect")
+      .attr("class", "tooltip box")
+      .attr("width", this.tooltipWidth)
+      .attr("height", this.tooltipHeight)
+      .attr('fill', 'white')
+      .attr('stroke', 'black')
+      .attr('opacity', '0')
+      .attr("rx", 4)
+      .attr("ry", 4);
+
     this.svg.append("text")
-      .attr("class", "mouse text")
+      .attr("class", "tooltip text value")
       .attr("y", y)
       .attr("x", x)
-      // .attr('text-anchor', 'middle')
-      .text('hi');
+      .attr('text-anchor', 'middle')
+
+    this.svg.append("text")
+      .attr("class", "tooltip text date")
+      .attr("y", y)
+      .attr("x", x)
+      .attr('text-anchor', 'middle')
 
   }
 
@@ -280,9 +304,13 @@ export class LineGraphComponent implements OnInit {
       y = yScale(dateActual.value)
     }
 
+    this.svg.selectAll('.tooltip')
+      .attr('opacity', '1')
+
+    let cursorOnLeft: boolean = (x < this.width / 2) // not exactly the middle, but close enough
+
     this.svg.select(".mouse.line")
       .style("stroke", "black")
-      .attr("opacity", '1')
       .attr("x1", x)
       .attr("y1", this.margin.top)
       .attr("x2", x)
@@ -292,21 +320,31 @@ export class LineGraphComponent implements OnInit {
     this.svg.selectAll(".mouse.circle")
       .attr("cx", x)
       .attr("cy", y)
-      .attr("opacity", "1")
 
+    let tooltipText = (this.yAxisValue == "totalCases" ? 'Cases: ' : 'Deaths: ') + dateActual.value;
 
-    this.svg.selectAll(".mouse.text")
+    this.svg.selectAll(".tooltip.text.value")
       // .attr("class", "legend")
-      .attr("y", y + 10)
-      .attr("x", x + 10)
-      .attr('text-anchor', 'left')
-      .attr('dominant-baseline', 'middle')
-      .text('hi');
+      .attr("y", y + (this.tooltipHeight / 2) - 5)
+      .attr("x", x + ((15 + (this.tooltipWidth / 2)) * (cursorOnLeft ? 1 : -1)))
+      .attr('dominant-baseline', 'text-after-edge')
+      .text(tooltipText);
+
+    this.svg.selectAll(".tooltip.text.date")
+      // .attr("class", "legend")
+      .attr("y", y - (this.tooltipHeight / 2) + 5)
+      .attr("x", x + ((15 + (this.tooltipWidth / 2)) * (cursorOnLeft ? 1 : -1)))
+      .attr('dominant-baseline', 'text-before-edge')
+      .text(d3.timeFormat("%b %Y")(dateActual.date.getTime()));
+
+    this.svg.select('.tooltip.box')
+      .attr('x', cursorOnLeft ? x + 15 : x - (this.tooltipWidth + 15))
+      .attr('y', y - (this.tooltipHeight / 2))
 
   }
 
   onMouseLeave() {
-    this.svg.select(".mouse")
+    this.svg.selectAll(".tooltip")
       .attr("opacity", "0")
   }
 
