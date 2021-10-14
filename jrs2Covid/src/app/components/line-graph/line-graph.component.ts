@@ -24,7 +24,7 @@ export class LineGraphComponent implements OnInit {
   ];
 
   selectedDay: number = 7;
-
+  
   svg;
   margin = {
     top: 30,
@@ -67,19 +67,11 @@ export class LineGraphComponent implements OnInit {
     if (!this.svg) {
       return
     }
+    this.svg
+      .on("mouseleave", () => {
+        this.onMouseLeave();
+      })
 
-    this.svg.append('rect')
-      .attr('width', this.width - (this.margin.left + this.margin.right))
-      .attr('height', this.height - (this.margin.top + this.margin.bottom))
-      .attr('x', this.margin.left)
-      .attr('y', this.margin.top)
-      .attr('class', 'graph-content')
-      .attr('fill', this.yAxisValue == 'totalCases' ? '#dbf3fa' : '#ffeded')
-
-    let line = d3.line()
-      .defined(d => !isNaN(d.value))
-      .x(d => x(d.date.getTime()))
-      .y(d => y(d.value))
 
     let cases = this.regions[0].timeline.cases
     let maxDate = cases[cases.length - 1].date.getTime();
@@ -98,7 +90,25 @@ export class LineGraphComponent implements OnInit {
 
     let y = this.makeYScale();
 
-    let tickLabels = [minDate, maxDate]
+    let line = d3.line()
+      .defined(d => !isNaN(d.value))
+      .x(d => x(d.date.getTime()))
+      .y(d => y(d.value))
+
+
+    this.svg.append('rect')
+      .attr('width', this.width - (this.margin.left + this.margin.right))
+      .attr('height', this.height - (this.margin.top + this.margin.bottom))
+      .attr('x', this.margin.left)
+      .attr('y', this.margin.top)
+      .attr('class', 'graph-content')
+      .attr('fill', this.yAxisValue == 'totalCases' ? '#dbf3fa' : '#ffeded')
+      .on("mouseover", (evt) => {
+        this.moveMouseLine(evt, x, y);
+      })
+      .on("mousemove", (evt) => {
+        this.moveMouseLine(evt, x, y);
+      })
 
     let xAxis = g => g
       .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
@@ -153,6 +163,22 @@ export class LineGraphComponent implements OnInit {
         .attr("d", d => line(d.timeline.deaths)
         );
     }
+
+    this.svg.append("line")
+      .attr('class', 'mouse-line')
+      .style("stroke", "black")
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", 0)
+      .attr("y2", 0);
+
+    this.svg.append("circle")
+      .attr('class', 'mouse-circle')
+      .attr("r", 7)
+      .attr("cx", 120)
+      .attr("cy", 120)
+      .attr("fill", "none")
+      .attr("stroke", "black")
   }
 
   monthYearFormat(d) {
@@ -200,6 +226,68 @@ export class LineGraphComponent implements OnInit {
       this.svg.selectAll("*").remove();
     }
     this.drawLineGraph();
+  }
+
+  public moveMouseLine = (evt, xScale, yScale) => {
+
+    let coords = d3.pointer(evt)
+
+    let x = coords[0];
+    let y;
+
+    // get date from x coordinate (pass through scale inverted) -> dateFromX
+    let date = xScale.invert(x);
+
+    // get real data at that date (regions.timeline[i].date. month, year, and day == dateFromX)
+    let timelineKey = this.yAxisValue == 'totalCases' ? 'cases' : 'deaths';
+
+    let dateActualIndex = this.regions[0].timeline[timelineKey].findIndex((day) => {
+      let _date = day.date
+
+      return date.getFullYear() == _date.getFullYear()
+        && date.getMonth() == _date.getMonth()
+        && date.getDate() == _date.getDate()
+    })
+
+    let dateActual = this.regions[0].timeline[timelineKey][dateActualIndex]
+    let nextDateActual = this.regions[0].timeline[timelineKey][dateActualIndex + 1]
+
+    if (nextDateActual) {
+      let x1 = xScale(dateActual.date.getTime())
+      let x2 = xScale(nextDateActual.date.getTime())
+
+      let y1 = yScale(dateActual.value)
+      let y2 = yScale(nextDateActual.value)
+
+      let newYScale = d3.scaleLinear()
+        .domain([x1, x2])
+        .range([y1, y2])
+
+      y = newYScale(x)
+    } else {
+      y = yScale(dateActual.value)
+    }
+
+    this.svg.select(".mouse-line")
+      .style("stroke", "black")
+      .attr("x1", x)
+      .attr("y1", this.margin.top)
+      .attr("x2", x)
+      .attr("y2", this.height - this.margin.bottom);
+
+    // mousePerLine
+    this.svg.selectAll(".mouse-circle")
+      .attr("cx", x)
+      .attr("cy", y)
+  }
+
+  onMouseLeave() {
+    this.svg.select(".mouse-line")
+      .style("stroke", "black")
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", 0)
+      .attr("y2", 0);
   }
 
 }
