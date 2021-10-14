@@ -18,6 +18,8 @@ th {
 
 a {
   text-align: center;
+  display: block;
+  text-decoration: none;
 }
 
 td,
