@@ -1,6 +1,6 @@
 <div class="line-canvas"
      #canvas>
-       <select [(ngModel)]="selectedDay"
+       <select [(ngModel)]="activeTimePeriod"
                (ngModelChange)="getDay()">
               <option *ngFor="let timePeriod of days"
                       [value]="timePeriod.value">{{timePeriod.label}}</option>

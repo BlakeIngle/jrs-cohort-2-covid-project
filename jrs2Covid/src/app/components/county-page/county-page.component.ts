@@ -32,10 +32,10 @@ export class CountyPageComponent implements OnInit {
   ngOnInit(): void {
     this.stateName = this.route.snapshot.paramMap.get("state")
     this.countyName = this.route.snapshot.paramMap.get("county")
-    this.dayChange(30);
+    this.reloadData(93); // three months by default
   }
 
-  dayChange(numberOfDays: number) {
+  reloadData(numberOfDays: number) {
     this.county = null;
     this.countyAsArray = null;
     this.johnsHopkinsServices.getCountyNumbersByState(this.stateName, numberOfDays)
