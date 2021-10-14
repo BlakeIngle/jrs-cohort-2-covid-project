@@ -23,7 +23,7 @@ export class LineGraphComponent implements OnInit {
     { label: "One Year", value: 365 },
   ];
 
-  selectedDay: number = 7;
+  activeTimePeriod: number = 7;
 
   svg;
   margin = {
@@ -40,12 +40,14 @@ export class LineGraphComponent implements OnInit {
 
   constructor() { }
 
-
   ngOnInit(): void {
   }
 
   ngOnChanges() {
     this.resetGraph();
+    if (this.regions && this.regions[0]?.timeline?.cases) {
+      this.activeTimePeriod = this.regions[0].timeline.cases.length;
+    }
   }
 
   createSvg() {
@@ -190,7 +192,7 @@ export class LineGraphComponent implements OnInit {
   }
 
   getDay() {
-    this.timePeriodChange.emit(this.selectedDay)
+    this.timePeriodChange.emit(this.activeTimePeriod)
   }
 
   resetGraph() {

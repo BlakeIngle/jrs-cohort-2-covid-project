@@ -14,9 +14,13 @@ export class HomePageComponent implements OnInit {
   constructor(private nytService: NytService) { }
 
   ngOnInit(): void {
+    this.reloadData(93); // three month by default
+  }
+
+  reloadData(numDays: number) {
     this.states = [];
 
-    this.nytService.getAllStatesData(60).subscribe(
+    this.nytService.getAllStatesData(numDays).subscribe(
       data => {
         this.states = this.nytService.convertData(data);
       }
