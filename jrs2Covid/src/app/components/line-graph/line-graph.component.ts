@@ -177,8 +177,9 @@ export class LineGraphComponent implements OnInit {
     this.svg.append("circle")
       .attr('class', 'mouse-circle')
       .attr("r", 7)
-      .attr("cx", 120)
-      .attr("cy", 120)
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("opacity", "0")
       .attr("fill", "none")
       .attr("stroke", "black")
   }
@@ -281,15 +282,22 @@ export class LineGraphComponent implements OnInit {
     this.svg.selectAll(".mouse-circle")
       .attr("cx", x)
       .attr("cy", y)
-  }
-
-  onMouseLeave() {
-    this.svg.select(".mouse-line")
+      .attr("opacity", "1")
+    }
+    
+    onMouseLeave() {
+      this.svg.select(".mouse-line")
       .style("stroke", "black")
       .attr("x1", 0)
       .attr("y1", 0)
       .attr("x2", 0)
       .attr("y2", 0);
+      
+      // mousePerLine
+      this.svg.selectAll(".mouse-circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("opacity", "0")
   }
 
 }
