@@ -167,7 +167,7 @@ export class LineGraphComponent implements OnInit {
     }
 
     this.svg.append("line")
-      .attr('class', 'mouse-line')
+      .attr('class', 'mouse line')
       .style("stroke", "black")
       .attr("x1", 0)
       .attr("y1", 0)
@@ -175,13 +175,21 @@ export class LineGraphComponent implements OnInit {
       .attr("y2", 0);
 
     this.svg.append("circle")
-      .attr('class', 'mouse-circle')
+      .attr('class', 'mouse circle')
       .attr("r", 7)
       .attr("cx", 0)
       .attr("cy", 0)
       .attr("opacity", "0")
       .attr("fill", "none")
       .attr("stroke", "black")
+
+    this.svg.append("text")
+      .attr("class", "mouse text")
+      .attr("y", y)
+      .attr("x", x)
+      // .attr('text-anchor', 'middle')
+      .text('hi');
+
   }
 
   monthYearFormat(d) {
@@ -236,6 +244,7 @@ export class LineGraphComponent implements OnInit {
     let coords = d3.pointer(evt)
 
     let x = coords[0];
+    console.log(x)
     let y;
 
     // get date from x coordinate (pass through scale inverted) -> dateFromX
@@ -271,33 +280,34 @@ export class LineGraphComponent implements OnInit {
       y = yScale(dateActual.value)
     }
 
-    this.svg.select(".mouse-line")
+    this.svg.select(".mouse.line")
       .style("stroke", "black")
+      .attr("opacity", '1')
       .attr("x1", x)
       .attr("y1", this.margin.top)
       .attr("x2", x)
       .attr("y2", this.height - this.margin.bottom);
 
     // mousePerLine
-    this.svg.selectAll(".mouse-circle")
+    this.svg.selectAll(".mouse.circle")
       .attr("cx", x)
       .attr("cy", y)
       .attr("opacity", "1")
-    }
-    
-    onMouseLeave() {
-      this.svg.select(".mouse-line")
-      .style("stroke", "black")
-      .attr("x1", 0)
-      .attr("y1", 0)
-      .attr("x2", 0)
-      .attr("y2", 0);
-      
-      // mousePerLine
-      this.svg.selectAll(".mouse-circle")
-        .attr("cx", 0)
-        .attr("cy", 0)
-        .attr("opacity", "0")
+
+
+    this.svg.selectAll(".mouse.text")
+      // .attr("class", "legend")
+      .attr("y", y + 10)
+      .attr("x", x + 10)
+      .attr('text-anchor', 'left')
+      .attr('dominant-baseline', 'middle')
+      .text('hi');
+
+  }
+
+  onMouseLeave() {
+    this.svg.select(".mouse")
+      .attr("opacity", "0")
   }
 
 }
