@@ -15,7 +15,7 @@ export class TableRankComponent implements OnInit {
   @Input() data: RegionData[];
 
   sortingColumn: string = 'totalCases';
-  sortingOrder: number = 1; // 1 - asc, -1 - decs
+  sortingOrder: number = -1; // 1 - asc, -1 - decs
   // total cases descending by default
 
   faSort = faSort;
