@@ -1,4 +1,13 @@
 .spinner {
-    padding: 5em 0;
-    text-align: center;
+  padding: 5em 0;
+  text-align: center;
+}
+
+.select {
+  padding-bottom: 8px;
+}
+
+.line-canvas {
+  padding: 1em;
+  margin-bottom: 2em;
 }

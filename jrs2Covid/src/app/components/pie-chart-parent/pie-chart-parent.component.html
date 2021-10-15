@@ -1,43 +1,41 @@
-<div class="root"
-     *ngIf="region; else spinner">
+<div class="bs">
 
-    <div class="col">
-        <pie-chart [region]="region"
-                   [partial]="region?.totalCases"
-                   [total]="region?.population"
-                   [color]="'#70a9ff'">
-        </pie-chart>
-        <p>Total Cases per Population</p>
-    </div>
+    <div class="root" *ngIf="region; else spinner">
 
-    <div class="col">
-        <pie-chart [region]="region"
-                   [partial]="region?.totalDeaths"
-                   [total]="region?.population"
-                   [color]="'#ff3333'">
-        </pie-chart>
-        <p>Total Deaths per Population</p>
-    </div>
-
-    <!-- <div class="col" *ngIf="region.totalVaccinations">
-            <pie-chart [region]="region" [partial]="region?.totalVaccinations" [total]="region?.population"
-                [color]="'#33ff33'">
+        <div class="col">
+            <pie-chart [region]="region" [partial]="region?.totalCases" [total]="region?.population"
+                [color]="'#70a9ff'">
             </pie-chart>
-            <p>Total Vaccinations per Population</p>
-        </div> -->
+            <p>Total Cases per Population</p>
+        </div>
 
-    <div class="col">
-        <pie-chart [region]="region"
-                   [partial]="region?.totalDeaths"
-                   [total]="region?.totalCases"
-                   [color]="'#ffff33'">
-        </pie-chart>
-        <p>Deaths per Total Cases</p>
+        <div class="col">
+            <pie-chart [region]="region" [partial]="region?.totalDeaths" [total]="region?.population"
+                [color]="'#ff3333'">
+            </pie-chart>
+            <p>Total Deaths per Population</p>
+        </div>
+
+        <!-- <div class="col" *ngIf="region.totalVaccinations">
+                <pie-chart [region]="region" [partial]="region?.totalVaccinations" [total]="region?.population"
+                    [color]="'#33ff33'">
+                </pie-chart>
+                <p>Total Vaccinations per Population</p>
+            </div> -->
+
+        <div class="col">
+            <pie-chart [region]="region" [partial]="region?.totalDeaths" [total]="region?.totalCases"
+                [color]="'#ffff33'">
+            </pie-chart>
+            <p>Deaths per Total Cases</p>
+        </div>
     </div>
+
+
+    <ng-template #spinner>
+        <div class="spinner">
+            <spinner></spinner>
+        </div>
+    </ng-template>
+
 </div>
-
-<ng-template #spinner>
-    <div class="spinner">
-        <spinner></spinner>
-    </div>
-</ng-template>

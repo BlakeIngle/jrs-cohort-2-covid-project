@@ -1,39 +1,37 @@
-<h2>{{ stateData ? stateData.region : "Loading" | uppercase }}</h2>
+<div class="bs">
 
-<div>Population: {{stateData?.population}}</div>
-<div>Total Cases: {{ stateData?.totalCases }}</div>
-<div>Active Cases: {{ stateData?.totalActive }}</div>
-<div>Total Deaths: {{ stateData?.totalDeaths }}</div>
 
-<div *ngIf="stateData?.timeline?.vaccinations">
-  Total Vaccination: {{stateData.totalVaccinations}}
-  <br> Vaccinations In The Last {{stateData.timeline.vaccinations.length}} Days:
-  {{stateData.totalVaccinations - stateData.timeline.vaccinations[0].value}}
+  <h2>{{ stateData ? stateData.region : "Loading" | uppercase }}</h2>
+  <div class="stateNums">
+
+    <div>Population: {{stateData?.population}}</div>
+    <div>Total Cases: {{ stateData?.totalCases }}</div>
+    <div>Active Cases: {{ stateData?.totalActive }}</div>
+    <div>Total Deaths: {{ stateData?.totalDeaths }}</div>
+
+    <div *ngIf="stateData?.timeline?.vaccinations">
+      Total Vaccination: {{stateData.totalVaccinations}}
+      <br> Vaccinations In The Last {{stateData.timeline.vaccinations.length}} Days:
+      {{stateData.totalVaccinations - stateData.timeline.vaccinations[0].value}}
+
+    </div>
+
+  </div>
 
 </div>
+
+
+
+
+
+
+
 
 <div>
-  Vaccinations Administered Today: {{ stateData?.todayVaccinations }}
-</div>
 
-<div>
-  Counties:
-  <br>
-  <select [(ngModel)]="selectedCounty">
-    <option *ngFor="let subregion of countiesNames"
-            value="{{subregion}}">
-      {{subregion}}
-    </option>
-  </select>
-  <br>
-  <button type="button"
-          (click)="onCountyClicked()">Go To County Page</button>
+  <pie-chart-parent [region]="stateData"></pie-chart-parent>
 
 </div>
-
-
-
-<pie-chart-parent [region]="stateData"></pie-chart-parent>
 
 <app-table-rank [data]="counties"></app-table-rank>
 

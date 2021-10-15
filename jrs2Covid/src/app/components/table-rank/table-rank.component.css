@@ -1,8 +1,6 @@
 table {
   border: solid rgb(111, 145, 141) 1px;
-  /* table-layout: fixed; */
   width: 100%;
-  /* height: */
   border-collapse: collapse;
   font-family: Arial, Helvetica, sans-serif;
   text-transform: uppercase;
@@ -18,9 +16,6 @@ th {
   border: solid rgb(111, 145, 141) 1px;
   text-align: center;
   cursor: pointer;
-
-  /* padding: 5px; */
-  /* margin: 5px; */
 }
 th:hover {
   background-color: rgb(114, 148, 145);
@@ -55,11 +50,6 @@ td {
   cursor: pointer;
   color: rgb(92, 92, 252);
 }
-/* .table-column {
-  width: 400px;
-  padding: 15px;
-  margin: 15px;
-} */
 
 td.spinner {
   padding: 2.5em;
