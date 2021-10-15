@@ -1,61 +1,84 @@
+h1 {
+    text-align: center;
+    text-transform: capitalize;
+    margin: 0 0 0.5em;
+}
+
+.table-container {
+    width: 100%;
+}
+
 table {
-  border: solid rgb(111, 145, 141) 1px;
-  width: 100%;
-  border-collapse: collapse;
-  font-family: Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-  font-size: 12px;
-  background-color: rgb(219, 233, 231);
-  color: rgb(19, 19, 134);
+    border: solid rgb(111, 145, 141) 1px;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
+    background-color: rgb(219, 233, 231);
+    color: rgb(19, 19, 134);
 }
 
 th {
-  height: 40px;
-  width: 200px;
-  background-color: rgb(138, 170, 167);
-  border: solid rgb(111, 145, 141) 1px;
-  text-align: center;
-  cursor: pointer;
+    height: 40px;
+    background-color: rgb(138, 170, 167);
+    border: solid rgb(111, 145, 141) 1px;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
 }
+
 th:hover {
-  background-color: rgb(114, 148, 145);
-  color: rgb(92, 92, 252);
+    background-color: rgb(114, 148, 145);
+    color: rgb(92, 92, 252);
 }
 
 th,
 td {
-  width: 25%;
+    width: 25%;
 }
 
 tr:nth-child(odd) {
-  background-color: rgb(253, 252, 252);
+    background-color: rgb(253, 252, 252);
 }
 
 tr {
-  height: 1.75em;
+    height: 1.75em;
 }
 
 .icon {
-  color: black;
+    color: black;
 }
 
 a {
-  text-decoration: none;
-}
-td {
-  border-right: solid rgb(111, 145, 141) 1px;
-  text-align: center;
-}
-.region:hover {
-  cursor: pointer;
-  color: rgb(92, 92, 252);
+    text-decoration: none;
 }
 
-td.spinner {
-  padding: 2.5em;
+td {
+    border-right: solid rgb(111, 145, 141) 1px;
+    text-align: center;
+}
+
+.region:hover {
+    cursor: pointer;
+    color: rgb(92, 92, 252);
+}
+
+.spinner {
+    padding: 2.5em;
+    text-align: center;
 }
 
 .table-scroll {
-  height: calc(1.75em * 15);
-  overflow: auto;
+    /* equation that displays 10 rows */
+    height: calc(1.75em * 10 * 0.75);
+    overflow: auto;
+}
+
+th div,
+td div {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

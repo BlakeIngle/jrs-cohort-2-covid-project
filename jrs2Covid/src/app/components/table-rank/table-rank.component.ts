@@ -11,6 +11,7 @@ import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons'
 })
 export class TableRankComponent implements OnInit {
 
+  @Input() parentName: string;
   @Input() data: RegionData[];
 
   sortingColumn: string = 'totalCases';
@@ -57,6 +58,7 @@ export class TableRankComponent implements OnInit {
   ngOnChanges() {
     this.determineStateOrRegion();
     this.sort();
+    console.log(this.parentName)
   }
 
   private determineStateOrRegion() {
