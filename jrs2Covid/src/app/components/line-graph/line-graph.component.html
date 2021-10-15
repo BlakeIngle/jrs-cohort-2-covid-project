@@ -1,28 +1,25 @@
 <div class="bs">
 
-       <div class="line-canvas" #canvas>
+    <div class="line-canvas" #canvas>
 
-              <div class="select">
+        <div class="select">
 
-                     <select [(ngModel)]="activeTimePeriod" (ngModelChange)="getDay()">
+            <select [(ngModel)]="activeTimePeriod" (ngModelChange)="getDay()">
                             <option *ngFor="let timePeriod of days" [value]="timePeriod.value">{{timePeriod.label}}
                             </option>
                      </select>
 
-              </div>
+        </div>
 
+        <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="resetGraph()" name="yAxisValue" value="totalCases" id="casesRadio">
+        <label for="casesRadio">Cases</label>
+        <br>
+        <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="resetGraph()" name="yAxisValue" value="totalDeaths" id="casesDeaths">
+        <label for="casesDeaths">Deaths</label>
 
-              <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="resetGraph()" name="yAxisValue"
-                     value="totalCases" id="casesRadio">
-              <label for="casesRadio">Cases</label>
-              <br>
-              <input type="radio" [(ngModel)]="yAxisValue" (ngModelChange)="resetGraph()" name="yAxisValue"
-                     value="totalDeaths" id="casesDeaths">
-              <label for="casesDeaths">Deaths</label>
-
-              <div class="spinner" *ngIf="!regions">
-                     <spinner></spinner>
-              </div>
-       </div>
+        <div class="spinner" *ngIf="!regions">
+            <spinner></spinner>
+        </div>
+    </div>
 
 </div>

@@ -25,6 +25,9 @@
                 <td>{{county.totalDeaths}}</td>
             </tr>
         </table>
+        <div class="spinner" *ngIf="!countyAsArray">
+            <spinner></spinner>
+        </div>
     </div>
 
 
