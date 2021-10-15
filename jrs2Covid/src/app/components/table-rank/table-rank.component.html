@@ -36,20 +36,14 @@
 
     </div>
 
-
-
     <ng-template #spinner>
         <!-- 
             table will match styling of actual table element
             table is used here because ngIf and ngFor directives 
             cannot be placed on same element 
         -->
-        <table>
-            <tr>
-                <td class="spinner" colspan="100%">
-                    <spinner></spinner>
-                </td>
-            </tr>
-        </table>
+        <div class="spinner">
+            <spinner></spinner>
+        </div>
     </ng-template>
 </div>

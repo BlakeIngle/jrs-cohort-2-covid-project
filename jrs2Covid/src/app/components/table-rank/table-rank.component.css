@@ -65,8 +65,9 @@ td {
     color: rgb(92, 92, 252);
 }
 
-td.spinner {
+.spinner {
     padding: 2.5em;
+    text-align: center;
 }
 
 .table-scroll {

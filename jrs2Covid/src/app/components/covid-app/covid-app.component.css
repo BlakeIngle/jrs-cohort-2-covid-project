@@ -1,52 +1,59 @@
 .root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
 }
 
 .container {
-  width: 100%;
-  max-width: 680px;
+    width: 100%;
+    max-width: 680px;
 }
 
 ul {
-  list-style: none;
+    list-style: none;
 }
 
 ul li {
-  display: inline;
+    display: inline;
 }
 
-ul li + li:before {
-  content: ">";
-  padding: 10px;
+ul li+li:before {
+    content: ">";
+    padding: 10px;
 }
 
 ul li a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 ul li a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 0.7em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 0.7em;
 }
+
 .jrs-logo {
-  height: 70px;
+    height: 70px;
 }
+
 .jrs {
-  top: 15px;
+    top: 15px;
 }
+
 p {
-  text-align: center;
-  margin-bottom: 0.2em;
-  margin-top: 0;
+    text-align: center;
+    margin-bottom: 0.2em;
+    margin-top: 0;
+}
+
+.bs {
+    text-align: center;
 }

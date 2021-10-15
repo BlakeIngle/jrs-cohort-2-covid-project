@@ -25,8 +25,8 @@ export class HomePageComponent implements OnInit {
   }
 
   reloadData(numDays: number) {
-    this.states = [];
-    this.population = [];
+    this.states = null;
+    this.population = null;
 
     this.nytService.getAllStatesData(numDays).subscribe(
       nytData => {
