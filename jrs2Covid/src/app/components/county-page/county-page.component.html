@@ -25,13 +25,13 @@
         </div>
     </div>
 
+    <div class="bs">
 
+        <app-line-graph [regions]="countyAsArray" (timePeriodChange)="reloadData($event)"></app-line-graph>
+    </div>
 
-
-
-
-    <app-line-graph [regions]="countyAsArray" (timePeriodChange)="reloadData($event)"></app-line-graph>
-
-    <pie-chart-parent [region]="county"></pie-chart-parent>
+    <div class="bs">
+        <pie-chart-parent [region]="county"></pie-chart-parent>
+    </div>
 
 </div>

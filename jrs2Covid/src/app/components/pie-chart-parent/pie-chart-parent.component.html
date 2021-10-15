@@ -1,45 +1,33 @@
-<div class="bs">
+<div class="root" *ngIf="region; else spinner">
 
+    <div class="col">
+        <pie-chart [region]="region" [partial]="region?.totalCases" [total]="region?.population" [color]="'#1e07b5'">
+        </pie-chart>
+        <p>Cases / Population</p>
+    </div>
 
-    <div class="root" *ngIf="region; else spinner">
+    <div class="col">
+        <pie-chart [region]="region" [partial]="region?.totalDeaths" [total]="region?.population" [color]="'#e04643'">
+        </pie-chart>
+        <p>Deaths / Population</p>
+    </div>
 
-        <div class="col">
-            <pie-chart [region]="region" [partial]="region?.totalCases" [total]="region?.population"
-                [color]="'#1e07b5'">
-            </pie-chart>
-            <p>Total Cases per Population</p>
-        </div>
-
-        <div class="col">
-            <pie-chart [region]="region" [partial]="region?.totalDeaths" [total]="region?.population"
-                [color]="'#f23d3a'">
-            </pie-chart>
-            <p>Total Deaths per Population</p>
-        </div>
-
-        <!-- <div class="col" *ngIf="region.totalVaccinations">
+    <!-- <div class="col" *ngIf="region.totalVaccinations">
                 <pie-chart [region]="region" [partial]="region?.totalVaccinations" [total]="region?.population"
                     [color]="'#33ff33'">
                 </pie-chart>
                 <p>Total Vaccinations per Population</p>
             </div> -->
 
-        <div class="col">
-            <pie-chart [region]="region" [partial]="region?.totalDeaths" [total]="region?.totalCases"
-                [color]="'#d6b924'">
-            </pie-chart>
-            <p>Deaths per Total Cases</p>
-        </div>
+    <div class="col">
+        <pie-chart [region]="region" [partial]="region?.totalDeaths" [total]="region?.totalCases" [color]="'#e04643'">
+        </pie-chart>
+        <p>Total Deaths / Total&nbsp;Cases</p>
     </div>
-
-
-
-
-
-    <ng-template #spinner>
-        <div class="spinner">
-            <spinner></spinner>
-        </div>
-    </ng-template>
-
 </div>
+
+<ng-template #spinner>
+    <div class="spinner">
+        <spinner></spinner>
+    </div>
+</ng-template>
