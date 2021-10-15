@@ -4,27 +4,21 @@
     <h1>{{ stateData ? stateData.region : "Loading" | uppercase }}</h1>
     <div class="stateNums">
 
-        <div>Population: {{stateData?.population}}</div>
-        <div>Total Cases: {{ stateData?.totalCases }}</div>
-        <div>Active Cases: {{ stateData?.totalActive }}</div>
-        <div>Total Deaths: {{ stateData?.totalDeaths }}</div>
+        <div *ngIf="stateData">
+            <div>Population: {{stateData?.population}}</div>
+            <div>Total Cases: {{ stateData?.totalCases }}</div>
+            <div class="bold">Active Cases: {{ stateData?.totalActive }}</div>
+            <div class="bold">Total Deaths: {{ stateData?.totalDeaths }}</div>
+        </div>
 
         <div *ngIf="stateData?.timeline?.vaccinations">
             Total Vaccination: {{stateData.totalVaccinations}}
             <br> Vaccinations In The Last {{stateData.timeline.vaccinations.length}} Days: {{stateData.totalVaccinations - stateData.timeline.vaccinations[0].value}}
 
         </div>
-
     </div>
 
 </div>
-
-
-
-
-
-
-
 
 <div>
 

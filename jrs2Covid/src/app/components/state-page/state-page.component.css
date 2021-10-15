@@ -1,18 +1,26 @@
 a {
-  text-decoration: none;
+    text-decoration: none;
+}
+
+h1 {
+    text-align: center;
 }
 
 .stateNums {
-  width: 50%;
-  padding: 1.5em;
-  margin-bottom: 2em;
-  font-size: 1em;
+    margin-bottom: 2em;
+    font-size: 1em;
+    text-align: center;
 }
+
+.bold {
+    font-weight: 900;
+}
+
 
 /* .donut {
   color: rgb(19, 19, 134);
 } */
 
 p {
-  text-align: center;
+    text-align: center;
 }
