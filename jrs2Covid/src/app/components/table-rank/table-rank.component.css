@@ -63,3 +63,7 @@ td.spinner {
     height: calc(1.75em * 10 * 0.75);
     overflow: auto;
 }
+
+h1 {
+    text-align: center;
+}
