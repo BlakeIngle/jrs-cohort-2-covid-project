@@ -1,6 +1,30 @@
 a {
   text-decoration: none;
 }
+
 p {
   text-align: center;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+.usa {
+  text-align: center;
+}
+
+.change {
+  background-color: black;
+  border-radius: 0.5em;
+  color: white;
+  padding: 0.25em 0.5em;
+}
+
+.increase {
+  color: rgb(255, 87, 87);
+}
+
+.decrease {
+  color: rgb(104, 255, 104);
 }

@@ -21,17 +21,19 @@ export class RegionDataService {
     }
     if (!region.fips || !region.stateFips || !region.population) {
       //check if county
+      if (region.parentRegion) {
 
-      let county = countyPopulations.find(c => c.region.toLowerCase() == region.parentRegion.toLowerCase()
-        && c.subregion.toLowerCase() == region.region.toLowerCase());
-      if (county) {
-        region.fips = county.us_county_fips;
-        region.stateFips = county.us_state_fips;
-        region.population = county.population;
-      } else {
-        let state = countyPopulations.find(c => c.region.toLowerCase() == region.region.toLowerCase());
-        if (state) {
-          region.stateFips = state.us_state_fips;
+        let county = countyPopulations.find(c => c.region.toLowerCase() == region.parentRegion.toLowerCase()
+          && c.subregion.toLowerCase() == region.region.toLowerCase());
+        if (county) {
+          region.fips = county.us_county_fips;
+          region.stateFips = county.us_state_fips;
+          region.population = county.population;
+        } else {
+          let state = countyPopulations.find(c => c.region.toLowerCase() == region.region.toLowerCase());
+          if (state) {
+            region.stateFips = state.us_state_fips;
+          }
         }
       }
     }

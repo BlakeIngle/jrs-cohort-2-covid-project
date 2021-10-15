@@ -3,6 +3,7 @@ import { RegionData } from 'src/app/models/regionData.model';
 import { NytService } from 'src/app/services/nyt.service';
 import { WorldometersService } from '../../services/worldometers.service';
 import { RegionDataService } from 'src/app/services/region-data.service';
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -15,6 +16,10 @@ export class HomePageComponent implements OnInit {
   states: RegionData[];
   population: any;
   stateData: RegionData[];
+  usaData: RegionData;
+
+  faUp = faCaretUp;
+  faDown = faCaretDown;
 
   constructor(private nytService: NytService,
     private worldService: WorldometersService,
@@ -28,8 +33,8 @@ export class HomePageComponent implements OnInit {
     this.states = [];
     this.population = [];
 
-    this.nytService.getAllStatesData(numDays).subscribe(
-      nytData => {
+    this.nytService.getAllStatesData(numDays)
+      .subscribe(nytData => {
 
         this.states = this.nytService.convertData(nytData);
         this.regionDataService.cleanUp(this.states)
@@ -52,8 +57,18 @@ export class HomePageComponent implements OnInit {
 
       });
 
+    this.worldService.getUSANumbers()
+      .subscribe((data) => {
+        this.usaData = this.worldService.convertData(data)[0];
+        this.usaData.region = 'USA'
+        this.usaData.parentRegion = null;
+        this.regionDataService.cleanUp(this.usaData);
+      })
   }
 
+
 }
+
+
 
 
