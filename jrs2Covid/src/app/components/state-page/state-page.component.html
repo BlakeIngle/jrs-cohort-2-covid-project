@@ -1,31 +1,31 @@
 <div class="bs">
 
 
-  <h1>{{ stateData ? stateData.region : "Loading" | uppercase }}</h1>
-  <div class="stateNums">
+    <h1>{{ stateData ? stateData.region : "Loading" | uppercase }}</h1>
+    <div class="stateNums">
 
-    <div class="bold" *ngIf="stateData">
-      <h2>Active Cases: {{ stateData?.totalActive }}</h2>
-      <h2>Total Deaths: {{ stateData?.totalDeaths }}</h2>
+        <div class="bold" *ngIf="stateData">
+            <h2>Active Cases: {{ stateData?.totalActive }}</h2>
+            <h2>Total Deaths: {{ stateData?.totalDeaths }}</h2>
+        </div>
     </div>
-  </div>
 
 </div>
 
 <div class="bs">
 
-  <pie-chart-parent [region]="stateData"></pie-chart-parent>
+    <pie-chart-parent [region]="stateData"></pie-chart-parent>
 
 </div>
 
 <app-table-rank [data]="counties"></app-table-rank>
 
 <!-- <app-line-graph [regions]="counties"></app-line-graph> -->
-<div class="bs">
-  <p *ngIf="stateData?.region == 'South Carolina'">
+<div class="bs" *ngIf="stateData?.region == 'South Carolina'">
+    <p>
 
-    For More Information In South Carolina, Including COVID-19 Testing And Vaccination Locations, Please Visit:
-    <a href="https://scdhec.gov/"> DHEC</a>
+        For More Information In South Carolina, Including COVID-19 Testing And Vaccination Locations, Please Visit:
+        <a href="https://scdhec.gov/"> DHEC</a>
 
-  </p>
+    </p>
 </div>
