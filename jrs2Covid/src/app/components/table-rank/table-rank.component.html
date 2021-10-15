@@ -1,29 +1,33 @@
 <div class="bs">
 
-    <h1>COVID NUMBERS</h1>
-    <div style="overflow-x: auto;">
 
-        <table class="table">
+    <div *ngIf="data; else spinner" class="table-container">
+
+        <h1>{{parentName + ' Ranked'}}</h1>
+
+        <table>
 
             <tr class="table-row">
                 <th *ngFor="let header of tableHeaders" (click)="changeSortingMethod(header.value)">
-                    {{header.label}}
-                    <fa-icon class="icon" [icon]="sortingColumn != header.value ? faSort : (sortingOrder == 1 ? faSortUp : faSortDown)">
-                    </fa-icon>
+                    <div>
+                        {{header.label}}
+                        <fa-icon class="icon" [icon]="sortingColumn != header.value ? faSort : (sortingOrder == 1 ? faSortUp : faSortDown)">
+                        </fa-icon>
+                    </div>
                 </th>
             </tr>
         </table>
 
         <div class="table-scroll">
-            <table *ngIf="data; else spinner">
+            <table>
                 <tr class="table-row" *ngFor="let region of data">
-                    <ng-template #regionSpan>
-                        <!-- ng template is just a definition. does not render unless told to -->
-                        <span><a [routerLink]="region.region">{{region.region}}</a></span>
-                    </ng-template>
 
                     <td *ngFor="let col of tableHeaders" class="{{col.value}}">
-                        <span *ngIf="col.value != 'region'; else regionSpan">{{region[col.value]}}</span>
+                        <div *ngIf="col.value != 'region'; else regionSpan">{{region[col.value]}}</div>
+
+                        <ng-template #regionSpan>
+                            <div><a [routerLink]="region.region">{{region.region}}</a></div>
+                        </ng-template>
                     </td>
                 </tr>
 

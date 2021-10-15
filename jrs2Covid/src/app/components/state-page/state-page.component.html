@@ -18,7 +18,7 @@
 
 </div>
 
-<app-table-rank [data]="counties"></app-table-rank>
+<app-table-rank [data]="counties" [parentName]="state"></app-table-rank>
 
 <!-- <app-line-graph [regions]="counties"></app-line-graph> -->
 <div class="bs" *ngIf="stateData?.region == 'South Carolina'">
