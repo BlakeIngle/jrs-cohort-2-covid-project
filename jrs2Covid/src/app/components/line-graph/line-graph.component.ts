@@ -77,7 +77,6 @@ export class LineGraphComponent implements OnInit {
         this.onMouseLeave();
       })
 
-
     let cases = this.regions[0].timeline.cases
     let maxDate = cases[cases.length - 1].date.getTime();
     let minDate = cases[0].date.getTime();
@@ -99,7 +98,6 @@ export class LineGraphComponent implements OnInit {
       .defined(d => !isNaN(d.value))
       .x(d => x(d.date.getTime()))
       .y(d => y(d.value))
-
 
     this.svg.append('rect')
       .attr('width', this.width - (this.margin.left + this.margin.right))
