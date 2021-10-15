@@ -1,7 +1,11 @@
-<div class="map-canvas"></div>
+<div class="map-canvas">
+        <spinner *ngIf="!data; else select"></spinner>
 
-<select [(ngModel)]="fillMode"
-        (ngModelChange)="recolor()">
-        <option *ngFor="let i of [1, 2, 3, 4 , 5, 6]"
-                [value]="i">{{fillModes[i]}}</option>
-</select>
+        <ng-template #select>
+                <select [(ngModel)]="fillMode"
+                        (ngModelChange)="recolor()">
+                        <option *ngFor="let i of [1, 2, 3, 4 , 5, 6]"
+                                [value]="i">{{fillModes[i]}}</option>
+                </select>
+        </ng-template>
+</div>
