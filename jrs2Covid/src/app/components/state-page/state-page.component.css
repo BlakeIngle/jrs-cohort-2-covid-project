@@ -13,6 +13,8 @@ h1 {
 }
 
 .bold {
+    display: flex;
+    justify-content: space-evenly;
     font-weight: 900;
 }
 
