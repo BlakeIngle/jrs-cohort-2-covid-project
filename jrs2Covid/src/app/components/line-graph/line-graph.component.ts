@@ -27,7 +27,7 @@ export class LineGraphComponent implements OnInit {
 
   svg;
   margin = {
-    top: 30,
+    top: 10,
     right: 30,
     left: 75,
     bottom: 30
