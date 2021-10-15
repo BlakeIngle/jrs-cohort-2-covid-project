@@ -183,7 +183,7 @@ export class LineGraphComponent implements OnInit {
 
     this.svg.append("circle")
       .attr('class', 'tooltip mouse circle')
-      .attr("r", 7)
+      .attr("r", 6)
       .attr("cx", 0)
       .attr("cy", 0)
       .attr("opacity", "0")
