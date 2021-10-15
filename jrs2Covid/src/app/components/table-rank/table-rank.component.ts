@@ -13,8 +13,9 @@ export class TableRankComponent implements OnInit {
 
   @Input() data: RegionData[];
 
-  sortingColumn: string = 'region';
+  sortingColumn: string = 'totalCases';
   sortingOrder: number = 1; // 1 - asc, -1 - decs
+  // total cases descending by default
 
   faSort = faSort;
   faSortUp = faSortUp;
@@ -55,7 +56,7 @@ export class TableRankComponent implements OnInit {
 
   ngOnChanges() {
     this.determineStateOrRegion();
-    this.sortAlphabetically();
+    this.sort();
   }
 
   private determineStateOrRegion() {
@@ -71,7 +72,11 @@ export class TableRankComponent implements OnInit {
   }
 
   sort() {
-    // this.sortingColumn
+
+    if (!this.data) {
+      return;
+    }
+
     if (this.sortingColumn == 'region') {
       this.sortAlphabetically();
     } else {
