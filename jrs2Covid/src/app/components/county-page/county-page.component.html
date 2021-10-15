@@ -1,12 +1,7 @@
 <div class="root">
     <div class="bs">
+        <h1>{{ (county ? county?.region + ', ' + county?.parentRegion : "Loading") | uppercase }}</h1>
 
-        <h2>{{county?.region | uppercase}} COVID NUMBERS</h2>
-
-    </div>
-
-
-    <div class="bs">
         <table *ngIf="county">
             <tr>
                 <th class="county">County</th>
