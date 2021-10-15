@@ -1,21 +1,22 @@
 <div class="bs">
 
 
-    <h1>{{ stateData ? stateData.region : "Loading" | uppercase }}</h1>
-    <div class="stateNums">
+  <h1>{{ stateData ? stateData.region : "Loading" | uppercase }}</h1>
+  <div class="stateNums">
 
-        <div>Population: {{stateData?.population}}</div>
-        <div>Total Cases: {{ stateData?.totalCases }}</div>
-        <div>Active Cases: {{ stateData?.totalActive }}</div>
-        <div>Total Deaths: {{ stateData?.totalDeaths }}</div>
+    <div>Population: {{stateData?.population}}</div>
+    <div>Total Cases: {{ stateData?.totalCases }}</div>
+    <div>Active Cases: {{ stateData?.totalActive }}</div>
+    <div>Total Deaths: {{ stateData?.totalDeaths }}</div>
 
-        <div *ngIf="stateData?.timeline?.vaccinations">
-            Total Vaccination: {{stateData.totalVaccinations}}
-            <br> Vaccinations In The Last {{stateData.timeline.vaccinations.length}} Days: {{stateData.totalVaccinations - stateData.timeline.vaccinations[0].value}}
-
-        </div>
+    <div *ngIf="stateData?.timeline?.vaccinations">
+      Total Vaccination: {{stateData.totalVaccinations}}
+      <br> Vaccinations In The Last {{stateData.timeline.vaccinations.length}} Days:
+      {{stateData.totalVaccinations - stateData.timeline.vaccinations[0].value}}
 
     </div>
+
+  </div>
 
 </div>
 
@@ -28,18 +29,18 @@
 
 <div>
 
-    <pie-chart-parent [region]="stateData"></pie-chart-parent>
+  <pie-chart-parent [region]="stateData"></pie-chart-parent>
 
 </div>
 
 <app-table-rank [data]="counties"></app-table-rank>
 
 <!-- <app-line-graph [regions]="counties"></app-line-graph> -->
-<div>
-    <p *ngIf="stateData?.region == 'South Carolina'">
+<div class="bs">
+  <p *ngIf="stateData?.region == 'South Carolina'">
 
-        For More Information In South Carolina, Including COVID-19 Testing And Vaccination Locations, Please Visit:
-        <a href="https://scdhec.gov/"> DHEC</a>
+    For More Information In South Carolina, Including COVID-19 Testing And Vaccination Locations, Please Visit:
+    <a href="https://scdhec.gov/"> DHEC</a>
 
-    </p>
+  </p>
 </div>
