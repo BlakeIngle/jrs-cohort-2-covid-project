@@ -1,13 +1,23 @@
 .spinner {
-  padding: 5em 0;
-  text-align: center;
+    padding: 5em 0;
+    text-align: center;
 }
 
 .select {
-  padding-bottom: 8px;
+    padding-bottom: 8px;
+    text-align: center;
 }
 
 .line-canvas {
-  padding: 1em;
-  margin-bottom: 2em;
+    padding: 1em;
+}
+
+.radio {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+select {
+    width: 40%;
+    text-align: center;
 }
