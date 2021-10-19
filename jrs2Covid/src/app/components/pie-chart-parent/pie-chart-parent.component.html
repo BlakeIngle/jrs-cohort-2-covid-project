@@ -1,16 +1,23 @@
 <h1>TOTAL COVID NUMBERS</h1>
-<div class="root" *ngIf="region; else spinner">
+<div class="root"
+     *ngIf="region; else spinner">
 
     <div class="col">
-        <pie-chart [region]="region" [partial]="region?.totalCases" [total]="region?.population" [color]="'#1e07b5'">
+        <pie-chart [region]="region"
+                   [partial]="region?.totalCases"
+                   [total]="region?.population"
+                   [color]="'#1e07b5'">
         </pie-chart>
-        <p>Cases / Population</p>
+        <p>Cases&nbsp;/ Population</p>
     </div>
 
     <div class="col">
-        <pie-chart [region]="region" [partial]="region?.totalDeaths" [total]="region?.population" [color]="'#e04643'">
+        <pie-chart [region]="region"
+                   [partial]="region?.totalDeaths"
+                   [total]="region?.population"
+                   [color]="'#e04643'">
         </pie-chart>
-        <p>Deaths / Population</p>
+        <p>Deaths&nbsp;/ Population</p>
     </div>
 
     <!-- <div class="col" *ngIf="region.totalVaccinations">
@@ -21,9 +28,12 @@
             </div> -->
 
     <div class="col">
-        <pie-chart [region]="region" [partial]="region?.totalDeaths" [total]="region?.totalCases" [color]="'#e04643'">
+        <pie-chart [region]="region"
+                   [partial]="region?.totalDeaths"
+                   [total]="region?.totalCases"
+                   [color]="'#e04643'">
         </pie-chart>
-        <p>Total Deaths / Total&nbsp;Cases</p>
+        <p>Total&nbsp;Deaths&nbsp;/ Total&nbsp;Cases</p>
     </div>
 </div>
 

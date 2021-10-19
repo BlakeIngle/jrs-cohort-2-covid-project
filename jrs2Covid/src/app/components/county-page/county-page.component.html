@@ -4,30 +4,25 @@
 
         <table *ngIf="county">
             <tr>
-                <th class="county">County</th>
-                <th class="state">State</th>
                 <th>Population</th>
                 <th>Total Cases</th>
                 <th>Total Deaths</th>
             </tr>
             <tr>
-                <td>{{county.region | uppercase}}</td>
-                <td>
-                    <a routerLink="..">{{county.parentRegion | uppercase}}</a>
-                </td>
                 <td>{{county.population}}</td>
                 <td>{{county.totalCases}}</td>
                 <td>{{county.totalDeaths}}</td>
             </tr>
         </table>
-        <div class="spinner" *ngIf="!countyAsArray">
+        <div class="spinner"
+             *ngIf="!countyAsArray">
             <spinner></spinner>
         </div>
     </div>
 
     <div class="bs">
-
-        <app-line-graph [regions]="countyAsArray" (timePeriodChange)="reloadData($event)"></app-line-graph>
+        <app-line-graph [regions]="countyAsArray"
+                        (timePeriodChange)="reloadData($event)"></app-line-graph>
     </div>
 
     <div class="bs">

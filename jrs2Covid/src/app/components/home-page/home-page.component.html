@@ -1,23 +1,28 @@
 <div class="bs">
 
-    <div *ngIf="usaData" class="usa">
+    <div *ngIf="usaData"
+         class="usa">
 
         <h1>USA Covid Numbers Today</h1>
         <h3>Active Cases: {{usaData?.totalCases}}
 
             <span class="change"
-                [ngClass]="{'increase': usaData.todayCases - usaData.todayRecovered > 0, 'decrease': usaData.todayCases - usaData.todayRecovered < 0}">
-                <fa-icon class="icon" [icon]="usaData.todayCases - usaData.todayRecovered > 0 ? faUp : faDown">
+                  [ngClass]="{'increase': usaData.todayCases - usaData.todayRecovered > 0, 'decrease': usaData.todayCases - usaData.todayRecovered < 0}">
+                <fa-icon class="icon"
+                         [icon]="usaData.todayCases - usaData.todayRecovered > 0 ? faUp : faDown">
                 </fa-icon>
                 {{usaData.todayCases - usaData.todayRecovered}}
             </span>
         </h3>
         <h3>Total Deaths: {{usaData?.totalDeaths}}
-            <span class="change" [ngClass]="{'increase': usaData.todayDeaths > 0, 'decrease': usaData.todayDeaths < 0}">
-                <fa-icon class="icon" [icon]="usaData.todayDeaths > 0 ? faUp : faDown">
+            <span class="change"
+                  [ngClass]="{'increase': usaData.todayDeaths > 0, 'decrease': usaData.todayDeaths < 0}">
+                <fa-icon class="icon"
+                         [icon]="usaData.todayDeaths > 0 ? faUp : faDown">
                 </fa-icon>
                 {{usaData.todayDeaths}}
-            </span></h3>
+            </span>
+        </h3>
     </div>
 </div>
 
@@ -26,9 +31,11 @@
 </div>
 
 <div class="bs">
-    <app-line-graph [regions]="states" (timePeriodChange)="reloadData($event)"></app-line-graph>
+    <app-line-graph [regions]="states"
+                    (timePeriodChange)="reloadData($event)"></app-line-graph>
 </div>
 
 <div class="bs">
-    <app-table-rank [data]="states" parentName="USA"></app-table-rank>
+    <app-table-rank [data]="states"
+                    parentName="USA"></app-table-rank>
 </div>
